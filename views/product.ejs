@@ -1,0 +1,38 @@
+<div class="container py-5">
+    <nav aria-label="breadcrumb" class="mb-4 text-uppercase small text-muted" style="font-size: 0.75rem;">
+        <a href="/">Home</a> <span class="mx-2">/</span> 
+        <a href="/shop">Shop</a> <span class="mx-2">/</span> 
+        <span class="text-dark"><%= product.name %></span>
+    </nav>
+
+    <div class="row g-5 align-items-center">
+        <div class="col-md-6">
+            <img src="<%= product.image %>" class="product-detail-img" alt="<%= product.name %>">
+        </div>
+
+        <div class="col-md-5 offset-md-1">
+            <div class="product-meta">Sustainable & Organic</div>
+            <h1 class="product-title"><%= product.name %></h1>
+            <div class="product-price">$<%= product.price.toFixed(2) %></div>
+            
+            <p class="text-muted mb-4" style="line-height: 1.7;">
+                <%= product.desc %> Designed to reduce waste without compromising on quality. This product comes in 100% compostable packaging and is verified carbon-neutral.
+            </p>
+
+            <hr class="my-4" style="opacity: 0.1;">
+
+            <div class="d-grid">
+                <a href="/cart" class="btn btn-primary btn-lg">
+                    Add to Bag — $<%= product.price.toFixed(2) %>
+                </a>
+            </div>
+
+            <div class="mt-4 small text-muted">
+                <div class="d-flex gap-3">
+                    <span><i class="bi bi-check-circle"></i> Plastic Free</span>
+                    <span><i class="bi bi-check-circle"></i> Ethically Made</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

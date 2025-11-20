@@ -1,0 +1,25 @@
+<div class="container pt-5 pb-5">
+    
+    <div class="text-center mb-5">
+        <h1 class="display-5">The Collection</h1>
+        <p class="text-muted" style="max-width: 500px; margin: 0 auto;">Thoughtfully designed products for a life lived with less waste and more meaning.</p>
+    </div>
+
+    <div class="row g-4">
+        <% products.forEach(p => { %>
+            <div class="col-6 col-md-4">
+                <a href="/product/<%= p.id %>">
+                    <div class="product-card">
+                        <div class="product-img-box">
+                            <img src="<%= p.image %>" alt="<%= p.name %>">
+                        </div>
+                        <div class="card-details">
+                            <h5 class="mb-1 text-dark" style="font-size: 1rem;"><%= p.name %></h5>
+                            <div class="price">$<%= p.price.toFixed(2) %></div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        <% }) %>
+    </div>
+</div>
