@@ -1,0 +1,223 @@
+<style>
+    /* --- SPLIT LOGIN LAYOUT --- */
+    .login-page-wrapper {
+        display: flex;
+        min-height: 100vh;
+        background: white;
+    }
+
+    /* LEFT SIDE (Brand / Info) */
+    .login-sidebar {
+        width: 40%;
+        background: #0f172a; /* Deep Navy */
+        color: white;
+        padding: 60px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .sidebar-content h1 {
+        font-size: 2.8rem;
+        line-height: 1.2;
+        margin-bottom: 20px;
+        font-weight: 800;
+    }
+
+    .sidebar-content p {
+        color: #94a3b8;
+        font-size: 1.1rem;
+        line-height: 1.6;
+        max-width: 400px;
+    }
+
+    .sidebar-footer {
+        margin-top: auto;
+        font-size: 0.85rem;
+        color: #475569;
+    }
+
+    /* RIGHT SIDE (Form) */
+    .login-main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 40px;
+    }
+
+    .login-card {
+        width: 100%;
+        max-width: 420px;
+    }
+
+    .login-header {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+    .login-header h2 { font-size: 2rem; margin-bottom: 10px; }
+    .login-header p { color: #666; }
+
+    /* Form Styles */
+    .form-group { margin-bottom: 20px; }
+    .form-label {
+        display: block;
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #334155;
+        margin-bottom: 8px;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 14px;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        background: #f8fafc;
+        font-size: 1rem;
+        outline: none;
+        transition: 0.2s;
+    }
+    .form-control:focus { border-color: #4f46e5; background: white; }
+
+    .btn-submit {
+        width: 100%;
+        background: #4f46e5; /* Indigo */
+        color: white;
+        padding: 16px;
+        font-size: 1rem;
+        font-weight: 600;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        transition: 0.2s;
+    }
+    .btn-submit:hover { background: #4338ca; transform: translateY(-1px); }
+
+    .auth-footer {
+        text-align: center;
+        margin-top: 30px;
+        font-size: 0.9rem;
+        color: #64748b;
+    }
+    .auth-link {
+        color: #4f46e5;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex; align-items: center; gap: 4px;
+    }
+    .auth-link:hover { text-decoration: underline; }
+
+    /* Mobile Responsive */
+    @media (max-width: 900px) {
+        .login-sidebar { display: none; }
+        .login-page-wrapper { justify-content: center; }
+        .login-main { padding: 20px; }
+    }
+</style>
+
+<div class="login-page-wrapper">
+    
+    <!-- LEFT: Brand Info -->
+    <div class="login-sidebar">
+        <div class="sidebar-content">
+            <div style="margin-bottom: 30px;">
+                <i class="bi bi-box-seam-fill" style="font-size: 3rem; color: #818cf8;"></i>
+            </div>
+            <h1>One Membership.<br>Unlimited Access.</h1>
+            <p>
+                EcoWorldBuy is exclusively available to Crowbar members. Access sustainable goods, gigs, and rewards with your single pass.
+            </p>
+        </div>
+        <div class="sidebar-footer">
+            &copy; 2025 Crowbar Inc.
+        </div>
+    </div>
+
+    <!-- RIGHT: Login Form -->
+    <div class="login-main">
+        <div class="login-card">
+            
+            <div class="login-header">
+                <h2>Welcome Back</h2>
+                <p>Please sign in to your account.</p>
+            </div>
+
+            <!-- Form -->
+            <div class="form-group">
+                <label class="form-label">Email Address</label>
+                <input type="email" id="email" class="form-control" placeholder="name@crowbar.com">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Password</label>
+                <input type="password" id="password" class="form-control" placeholder="••••••••">
+            </div>
+
+            <button id="loginBtn" class="btn-submit">
+                <i class="bi bi-box-arrow-in-right"></i> Login with Crowbar ID
+            </button>
+            
+            <p id="msg" style="text-align: center; margin-top: 15px; color: #ef4444; font-weight: 600; font-size: 0.9rem;"></p>
+
+            <!-- Footer Link -->
+            <div class="auth-footer">
+                <p style="margin-bottom: 5px;">Don't have an account?</p>
+                <a href="https://crowbar-master-site.vercel.app/register" target="_blank" class="auth-link">
+                    Create Crowbar ID <i class="bi bi-arrow-right-short"></i>
+                </a>
+                <p style="margin-top: 15px; font-size: 0.75rem; opacity: 0.7;">
+                    Registering creates a unified ID for Crowbar, TalentKonnect, and EcoWorldBuy.
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<!-- SUPABASE LOGIC -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+    // CONFIG
+    const SB_URL = 'https://zfxnhbymlhvukeqmsyhj.supabase.co';
+    const SB_KEY = 'YOUR_LONG_ANON_KEY_HERE'; // <--- PASTE KEY AGAIN
+    
+    const client = supabase.createClient(SB_URL, SB_KEY);
+
+    document.getElementById('loginBtn').addEventListener('click', async () => {
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const msg = document.getElementById('msg');
+        const btn = document.getElementById('loginBtn');
+
+        if(!email || !password) {
+            msg.innerText = "Please enter your credentials.";
+            return;
+        }
+
+        btn.innerText = "Verifying...";
+        msg.innerText = "";
+
+        const { data, error } = await client.auth.signInWithPassword({ email, password });
+
+        if(error) {
+            msg.innerText = "Error: " + error.message;
+            btn.innerHTML = '<i class="bi bi-box-arrow-in-right"></i> Login with Crowbar ID';
+        } else {
+            msg.innerText = "Success! Redirecting...";
+            msg.style.color = "#10b981";
+            
+            localStorage.setItem('crowbar_session', data.session.access_token);
+            localStorage.setItem('crowbar_user', JSON.stringify(data.user));
+            
+            setTimeout(() => window.location.href = '/', 1000);
+        }
+    });
+</script>

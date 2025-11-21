@@ -1,40 +1,78 @@
-<section class="hero-section">
-    <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=1920&q=80" 
-         alt="Sustainable Nature" 
-         class="hero-bg">
+<div class="container hero-wrapper">
     
-    <div class="hero-overlay"></div>
+    <div class="bento-grid">
+        
+        <div class="bento-left">
+            <div class="bento-main">
+                <div class="bento-text">
+                    <span style="color: #666; font-weight: 600; font-size: 0.9rem;">Woman's Fashion</span>
+                    <h2>Best Sustainable<br>Collection</h2>
+                    <p>Dining, Living, & desk areas.</p>
+                    <a href="/shop" class="btn-shop">Shop Now</a>
+                </div>
+                <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=600&q=80" class="bento-img" style="right: -50px; height: 120%;">
+            </div>
 
-    <div class="hero-content fade-in-up">
-        <span class="text-uppercase" style="letter-spacing: 3px; font-size: 0.9rem; opacity: 0.9;">Ethical & Conscious</span>
-        <h1 class="hero-title display-3 fw-bold my-3">Designed for the Planet.</h1>
-        <p class="lead mb-5" style="opacity: 0.9; font-weight: 300;">Premium essentials crafted from organic, biodegradable materials.</p>
-        <a href="/shop" class="btn btn-custom" style="background: white; color: var(--color-primary); border:none;">Shop Collection</a>
+            <div class="bento-sub-row">
+                <div class="bento-card" style="background: #E0F2F1;"> <div class="bento-text" style="max-width: 100%;">
+                        <h4>Stylish Men's<br>Fashion</h4>
+                        <a href="/shop" style="font-weight: 700; font-size: 0.8rem; margin-top: 10px; display:block;">Shop Now &rarr;</a>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?auto=format&fit=crop&w=300&q=80" class="bento-img" style="height: 140%; right: -20px;">
+                </div>
+                <div class="bento-card" style="background: #FFF8E1;"> <div class="bento-text">
+                        <span style="color: #F4A226; font-weight: 700;">New!</span>
+                        <h4>Kids Eco<br>Toys</h4>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?auto=format&fit=crop&w=300&q=80" class="bento-img" style="right: -30px;">
+                </div>
+            </div>
+        </div>
+
+        <div class="bento-right-tall">
+            <div class="bento-text" style="max-width: 100%; margin-bottom: auto; margin-top: 20px;">
+                <span style="color: #FF4D4F; font-weight: 700;">Super Sale 50%</span>
+                <h2>Stylish Looks For<br>Any Season</h2>
+                <a href="/shop" class="btn-shop" style="background: #FF4D4F; margin-top: 15px;">Show Now</a>
+            </div>
+            <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=600&q=80" style="width: 100%; margin-bottom: -20px; border-radius: 12px;">
+        </div>
+
     </div>
-</section>
+</div>
 
-<div class="container my-5 py-5">
-    <div class="row text-center g-4">
-        <div class="col-md-4">
-            <div class="p-4" style="background: white; height: 100%;">
-                <i class="bi bi-droplet fs-2 text-success"></i>
-                <h4 class="h5 mt-3">Zero Waste</h4>
-                <p class="text-muted small mb-0">Our packaging creates no landfill waste.</p>
+<div class="dark-section">
+    <div class="container">
+        <div class="section-header-dark">
+            <h3>Weekly Best Deals</h3>
+            <div class="deal-tags">
+                <span class="deal-tag active">Up to 50% off</span>
+                <span class="deal-tag">Under $20</span>
+                <span class="deal-tag">New Arrivals</span>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="p-4" style="background: white; height: 100%;">
-                <i class="bi bi-patch-check fs-2 text-success"></i>
-                <h4 class="h5 mt-3">Certified Organic</h4>
-                <p class="text-muted small mb-0">100% GOTS certified materials.</p>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="p-4" style="background: white; height: 100%;">
-                <i class="bi bi-heart fs-2 text-success"></i>
-                <h4 class="h5 mt-3">Ethically Made</h4>
-                <p class="text-muted small mb-0">Fair wages for every artisan involved.</p>
-            </div>
+
+        <div class="deals-grid">
+            <% products.slice(0, 4).forEach(p => { %>
+                <div class="deal-card">
+                    <div class="deal-img-wrap">
+                        <span class="sale-badge">Sale</span>
+                        <a href="/product/<%= p.id %>">
+                            <img src="<%= p.image %>" alt="<%= p.name %>">
+                        </a>
+                    </div>
+                    <div class="deal-info">
+                        <div class="deal-rating">★★★★★ (4.5)</div>
+                        <h4><%= p.name %></h4>
+                        <div class="deal-price">$<%= p.price.toFixed(2) %></div>
+                        
+                        <form action="/add-to-cart/<%= p.id %>" method="POST">
+                            <input type="hidden" name="quantity" value="1">
+                            <button class="btn-add-cart">Add to Cart</button>
+                        </form>
+                    </div>
+                </div>
+            <% }) %>
         </div>
     </div>
 </div>

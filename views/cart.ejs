@@ -1,54 +1,79 @@
-<div class="container py-5" style="max-width: 900px;">
-    <h2 class="mb-4">Your Bag (1 Item)</h2>
+<div class="cart-page">
+    <div class="cart-header">
+        <h1>Your Bag</h1>
+    </div>
 
-    <div class="row g-5">
-        <div class="col-md-7">
-            <div class="cart-item">
-                <img src="https://images.unsplash.com/photo-1607613009820-a29f7bb6dcaf?auto=format&fit=crop&w=150&q=80" 
-                     style="width: 80px; height: 80px; object-fit: cover; margin-right: 20px;">
-                
-                <div class="flex-grow-1">
-                    <h5 class="mb-1" style="font-size: 1rem;">Bamboo Toothbrush Set</h5>
-                    <p class="text-muted small mb-0">Variant: Natural</p>
-                </div>
-                
-                <div class="fw-bold">$12.99</div>
+    <% if (cart.length === 0) { %>
+        <div class="empty-cart">
+            <h3 style="margin-bottom: 20px;">Your bag is empty</h3>
+            <p style="color: #666; margin-bottom: 30px;">Looks like you haven't added anything yet.</p>
+            <a href="/shop" class="btn-checkout" style="width: auto; display: inline-block; padding: 15px 40px;">Continue Shopping</a>
+        </div>
+    <% } else { %>
+        
+        <div class="cart-grid">
+            <div class="cart-items">
+                <% cart.forEach(item => { %>
+                    <div class="cart-item">
+                        <img src="<%= item.image %>" alt="<%= item.name %>" class="cart-img">
+                        
+                        <div class="item-info">
+                            <h4><%= item.name %></h4>
+                            
+                            <div class="qty-selector">
+                                <form action="/update-cart" method="POST" style="margin:0;">
+                                    <input type="hidden" name="productId" value="<%= item.id %>">
+                                    <input type="hidden" name="action" value="decrease">
+                                    <button type="submit" class="qty-btn">-</button>
+                                </form>
+
+                                <span class="qty-number"><%= item.quantity %></span>
+
+                                <form action="/update-cart" method="POST" style="margin:0;">
+                                    <input type="hidden" name="productId" value="<%= item.id %>">
+                                    <input type="hidden" name="action" value="increase">
+                                    <button type="submit" class="qty-btn">+</button>
+                                </form>
+                            </div>
+
+                            <form action="/update-cart" method="POST">
+                                <input type="hidden" name="productId" value="<%= item.id %>">
+                                <input type="hidden" name="action" value="remove">
+                                <button type="submit" class="remove-btn">Remove</button>
+                            </form>
+                        </div>
+                        
+                        <div class="item-price">
+                            $<%= (item.price * item.quantity).toFixed(2) %>
+                        </div>
+                    </div>
+                <% }); %>
             </div>
 
-            <a href="/shop" class="text-muted small text-decoration-underline">
-                &larr; Continue Shopping
-            </a>
-        </div>
-
-        <div class="col-md-5">
             <div class="cart-summary">
-                <h5 class="mb-3">Order Summary</h5>
-                
-                <div class="d-flex justify-content-between mb-2 small">
-                    <span class="text-muted">Subtotal</span>
-                    <span>$12.99</span>
+                <div class="summary-row">
+                    <span>Subtotal</span>
+                    <span>$<%= total.toFixed(2) %></span>
                 </div>
-                <div class="d-flex justify-content-between mb-4 small">
-                    <span class="text-muted">Shipping</span>
-                    <span class="text-success">Free</span>
+                <div class="summary-row">
+                    <span>Shipping</span>
+                    <span>Calculated at checkout</span>
                 </div>
                 
-                <hr style="opacity: 0.1;">
-                
-                <div class="d-flex justify-content-between fw-bold mb-4 fs-5">
+                <div class="total-row">
                     <span>Total</span>
-                    <span>$12.99</span>
+                    <span>$<%= total.toFixed(2) %></span>
                 </div>
 
-                <a href="/checkout" class="btn btn-primary w-100">
-                    Checkout Securely
+                <a href="/checkout" style="text-decoration: none;">
+                    <button class="btn-checkout">Checkout</button>
                 </a>
                 
-                <p class="text-center mt-3 text-muted" style="font-size: 0.7rem;">
-                    <i class="bi bi-lock-fill"></i> 
-                    Protected by Crowbar Secure Payments
-                </p>
+                <div class="secure-text">
+                    <i class="bi bi-lock-fill"></i> Secure checkout via Crowbar
+                </div>
             </div>
         </div>
-    </div>
+
+    <% } %>
 </div>

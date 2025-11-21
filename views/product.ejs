@@ -1,38 +1,48 @@
-<div class="container py-5">
-    <nav aria-label="breadcrumb" class="mb-4 text-uppercase small text-muted" style="font-size: 0.75rem;">
-        <a href="/">Home</a> <span class="mx-2">/</span> 
-        <a href="/shop">Shop</a> <span class="mx-2">/</span> 
-        <span class="text-dark"><%= product.name %></span>
-    </nav>
+<div class="pdp-container">
+    
+    <div class="pdp-image-wrap">
+        <img src="<%= product.image %>" alt="<%= product.name %>">
+    </div>
 
-    <div class="row g-5 align-items-center">
-        <div class="col-md-6">
-            <img src="<%= product.image %>" class="product-detail-img" alt="<%= product.name %>">
+    <div class="pdp-info">
+        
+        <div class="pdp-breadcrumb">
+            <a href="/">Home</a> / <a href="/shop">Shop</a> / <span>Product</span>
         </div>
 
-        <div class="col-md-5 offset-md-1">
-            <div class="product-meta">Sustainable & Organic</div>
-            <h1 class="product-title"><%= product.name %></h1>
-            <div class="product-price">$<%= product.price.toFixed(2) %></div>
-            
-            <p class="text-muted mb-4" style="line-height: 1.7;">
-                <%= product.desc %> Designed to reduce waste without compromising on quality. This product comes in 100% compostable packaging and is verified carbon-neutral.
-            </p>
+        <h1 class="pdp-title"><%= product.name %></h1>
+        <div class="pdp-price">$<%= product.price.toFixed(2) %></div>
 
-            <hr class="my-4" style="opacity: 0.1;">
+        <p class="pdp-description">
+            <%= product.desc %> <br><br>
+            Designed for the modern, eco-conscious lifestyle. Made from ethically sourced materials that are durable, sustainable, and plastic-free.
+        </p>
 
-            <div class="d-grid">
-                <a href="/cart" class="btn btn-primary btn-lg">
-                    Add to Bag — $<%= product.price.toFixed(2) %>
-                </a>
+        <form action="/add-to-cart/<%= product.id %>" method="POST" class="pdp-form">
+            <input type="number" name="quantity" value="1" min="1" max="10" class="qty-input-lg">
+            <button type="submit" class="btn-add-large">
+                <i class="bi bi-bag-plus"></i> Add to Cart
+            </button>
+        </form>
+
+        <div class="pdp-features">
+            <div class="feature-item">
+                <div class="feature-icon"><i class="bi bi-truck"></i></div>
+                <span>Free Shipping over $50</span>
             </div>
-
-            <div class="mt-4 small text-muted">
-                <div class="d-flex gap-3">
-                    <span><i class="bi bi-check-circle"></i> Plastic Free</span>
-                    <span><i class="bi bi-check-circle"></i> Ethically Made</span>
-                </div>
+            <div class="feature-item">
+                <div class="feature-icon"><i class="bi bi-shield-check"></i></div>
+                <span>Secure Checkout</span>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon"><i class="bi bi-recycle"></i></div>
+                <span>Plastic-Free Packaging</span>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon"><i class="bi bi-arrow-counterclockwise"></i></div>
+                <span>30-Day Returns</span>
             </div>
         </div>
+
     </div>
 </div>
