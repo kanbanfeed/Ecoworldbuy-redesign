@@ -238,7 +238,7 @@ img { display: block; max-width: 100%; }
     color: var(--text-main);
     transition: transform 0.3s;
 }
-.deal-card:hover { transform: translateY(-5px); }
+.deal-card:hover { transform: translateY(); }
 
 .deal-img-wrap {
     background: #f4f4f4;
@@ -784,7 +784,7 @@ img { display: block; max-width: 100%; }
 
 /* 1. The Background Wrapper */
 .shop-dark-wrapper {
-    background-color: #023430; /* Deep Green from Home Page */
+    background-color: #7b8b93; /* Deep Green from Home Page */
     min-height: 100vh;         /* Cover full height */
     padding: 60px 0;
     margin-top: -20px;         /* Pull up to touch navbar */
