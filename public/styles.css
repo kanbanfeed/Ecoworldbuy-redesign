@@ -240,17 +240,32 @@ img { display: block; max-width: 100%; }
 }
 .deal-card:hover { transform: translateY(); }
 
+/* --- FIX FOR OVERFLOWING IMAGES --- */
+
 .deal-img-wrap {
     background: #f4f4f4;
-    border-radius: var(--radius);
-    height: 220px;
+    border-radius: 8px;
+    height: 240px; /* Increased height slightly */
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 15px;
     position: relative;
+    
+    /* NEW: Prevents image from touching edges */
+    padding: 20px; 
+    overflow: hidden; 
 }
-.deal-img-wrap img { max-height: 90%; mix-blend-mode: multiply; }
+
+.deal-img-wrap img {
+    /* NEW: Ensures image fits perfectly inside padding */
+    max-width: 100%;
+    max-height: 100%; 
+    width: auto;
+    height: auto;
+    object-fit: contain; /* Keeps the bottle shape correct */
+    mix-blend-mode: multiply; /* Blends background nicely */
+}
 
 .sale-badge {
     position: absolute; top: 10px; left: 10px;
@@ -784,15 +799,15 @@ img { display: block; max-width: 100%; }
 
 /* 1. The Background Wrapper */
 .shop-dark-wrapper {
-    background-color: #7b8b93; /* Deep Green from Home Page */
+    background-color: #F0F8F4 !important; /* Deep Green from Home Page */
     min-height: 100vh;         /* Cover full height */
     padding: 60px 0;
     margin-top: -20px;         /* Pull up to touch navbar */
 }
 
 /* 2. Header Text Adjustment */
-.shop-dark-wrapper h1 { color: white; }
-.shop-dark-wrapper p { color: rgba(255, 255, 255, 0.7); }
+.shop-dark-wrapper h1 { color: green; }
+.shop-dark-wrapper p { color: red; }
 
 /* 3. White Cards (Like Home Page Deals) */
 .shop-card-white {
