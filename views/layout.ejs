@@ -4,89 +4,75 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title %> | EcoWorldBuy</title>
-    
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="/styles.css">
 
     <style>
-        /* --- MEMBERSHIP BANNER STYLE --- */
         #crowbar-access-bar {
-            background-color: #064e3b; /* Deep Green */
-            color: #ecfdf5;            /* Mint White */
-            text-align: center;
-            font-size: 0.75rem;
-            padding: 12px 0;
-            font-weight: 700;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            display: none; /* Hidden by default */
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            background-color: #064e3b; color: #ecfdf5; text-align: center;
+            font-size: 0.75rem; padding: 12px 0; font-weight: 700; letter-spacing: 1.5px;
+            text-transform: uppercase; display: none; border-bottom: 1px solid rgba(255,255,255,0.1);
         }
-
         .access-icon { margin-right: 8px; color: #34d399; font-size: 0.9rem; }
     </style>
 </head>
 <body>
 
-    <div id="crowbar-access-bar">
-        <i class="bi bi-shield-fill-check access-icon"></i> 
-        Access Granted: Crowbar Membership Active
-    </div>
+    <% if (!hideLayout) { %>
 
-    <div class="announcement-bar">
-        Free Carbon-Neutral Shipping on Orders Over $50
-    </div>
+        <div id="crowbar-access-bar">
+            <i class="bi bi-shield-fill-check access-icon"></i> 
+            Access Granted: Crowbar Membership Active
+        </div>
 
-    <nav class="navbar">
-        <div class="container nav-container">
-            
-            <div style="display: flex; align-items: center; gap: 30px;">
-                <a href="/" class="nav-brand">
-                    <i class="bi bi-bag-fill" style="color: #F4A226;"></i> EcoWorld.
-                </a>
+        <div class="announcement-bar">
+            Free Carbon-Neutral Shipping on Orders Over $50
+        </div>
 
-                <div class="header-links">
-                    <a href="/">Home</a>
-                    <a href="/shop">Products</a>
+        <nav class="navbar">
+            <div class="container nav-container">
+                <div style="display: flex; align-items: center; gap: 30px;">
+                    <a href="/" class="nav-brand">
+                        <i class="bi bi-bag-fill" style="color: #F4A226;"></i> EcoWorld.
+                    </a>
+                    <div class="header-links">
+                        <a href="/">Home</a>
+                        <a href="/shop">Products</a>
+                    </div>
+                </div>
+                <div class="nav-search">
+                    <input type="text" placeholder="Search in products...">
+                    <button>Search</button>
+                </div>
+                <div class="nav-icons">
+                    <a href="#"><i class="bi bi-heart"></i></a>
+                    <a href="/cart" class="cart-icon">
+                        <i class="bi bi-cart3"></i>
+                        <span class="cart-count"><%= typeof cartCount !== 'undefined' ? cartCount : 0 %></span>
+                    </a>
+                    <a href="/login"><i class="bi bi-person-circle"></i></a>
                 </div>
             </div>
+        </nav>
 
-            <div class="nav-search">
-                <input type="text" placeholder="Search in products...">
-                <button>Search</button>
-            </div>
-
-            <div class="nav-icons">
-                <a href="#"><i class="bi bi-heart"></i></a>
-                <a href="/cart" class="cart-icon">
-                    <i class="bi bi-cart3"></i>
-                    <span class="cart-count"><%= typeof cartCount !== 'undefined' ? cartCount : 0 %></span>
-                </a>
-                <a href="/login"><i class="bi bi-person-circle"></i></a>
-            </div>
-        </div>
-    </nav>
-
+    <% } %>
     <%- body %>
 
-    <footer>
-        <div class="container">
-            <h3>EcoWorldBuy.</h3>
-            <p>Premium Retail & Lifestyle.</p>
-            <small>&copy; 2025 Crowbar Ecosystem</small>
-        </div>
-    </footer>
-
+    <% if (!hideLayout) { %>
+        <footer>
+            <div class="container">
+                <h3>EcoWorldBuy.</h3>
+                <p>Premium Retail & Lifestyle.</p>
+                <small>&copy; 2025 Crowbar Ecosystem</small>
+            </div>
+        </footer>
+    <% } %>
     <script>
-        // Check if the user has a Crowbar Session in their browser
         const session = localStorage.getItem('crowbar_session');
-        
-        // Get the current page path (e.g., "/login", "/", "/shop")
         const currentPath = window.location.pathname;
-
-        // LOGIC FIX: Only show the banner if logged in AND NOT on the login page
-        if (session && currentPath !== '/login') {
+        // Only show banner if logged in AND header is visible (not on login page)
+        if (session && document.getElementById('crowbar-access-bar')) {
             document.getElementById('crowbar-access-bar').style.display = 'block';
         }
     </script>

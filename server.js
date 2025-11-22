@@ -20,15 +20,20 @@ app.use(session({
     cookie: { maxAge: 1000 * 60 * 60 * 24 }
 }));
 
-// CART COUNT MIDDLEWARE
+// --- NEW: GLOBAL VARIABLES MIDDLEWARE ---
 app.use((req, res, next) => {
+    // 1. Cart Count Logic
     const cart = req.session.cart || [];
     const count = cart.reduce((sum, item) => sum + item.quantity, 0);
     res.locals.cartCount = count;
+
+    // 2. Default Layout Settings (Show Header/Footer by default)
+    res.locals.hideLayout = false; 
+
     next();
 });
 
-// --- PRODUCT DATA ---
+// --- DATA ---
 const products = [
    { 
         id: 1, 
@@ -62,12 +67,13 @@ const products = [
         { id: 6, name: "Minimalist Watch", price: 95.00, image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80", desc: "Sustainable materials, timeless design." }
 ];
 
+
 // --- ROUTES ---
 app.get('/', (req, res) => res.render('index', { title: 'Home', products }));
 app.get('/shop', (req, res) => res.render('shop', { title: 'Collection', products }));
 
-// --- THIS WAS MISSING: LOGIN ROUTE ---
-app.get('/login', (req, res) => res.render('login', { title: 'Login' }));
+// --- LOGIN ROUTE (The Fix) ---
+app.get('/login', (req, res) => res.render('login', { title: 'Login', hideLayout: true }));
 
 app.get('/product/:id', (req, res) => {
     const product = products.find(p => p.id == req.params.id);
@@ -91,15 +97,12 @@ app.post('/update-cart', (req, res) => {
     const id = parseInt(productId);
     const cart = req.session.cart || [];
     const itemIndex = cart.findIndex(p => p.id === id);
-
     if (itemIndex > -1) {
         if (action === 'increase') cart[itemIndex].quantity++;
         else if (action === 'decrease') {
             if (cart[itemIndex].quantity > 1) cart[itemIndex].quantity--;
             else cart.splice(itemIndex, 1);
-        } else if (action === 'remove') {
-            cart.splice(itemIndex, 1);
-        }
+        } else if (action === 'remove') cart.splice(itemIndex, 1);
     }
     req.session.cart = cart;
     res.redirect('/cart');
