@@ -72,8 +72,26 @@ const products = [
 app.get('/', (req, res) => res.render('index', { title: 'Home', products }));
 app.get('/shop', (req, res) => res.render('shop', { title: 'Collection', products }));
 
-// --- LOGIN ROUTE (The Fix) ---
-app.get('/login', (req, res) => res.render('login', { title: 'Login', hideLayout: true }));
+app.get('/login', (req, res) => {
+    
+    const protocol = req.headers['x-forwarded-proto'] || 'http';
+    const host = req.headers['x-forwarded-host'] || req.get('host');
+    const baseUrl = `${protocol}://${host}`;
+    
+    
+    const returnUrl = `${baseUrl}/auth/callback`;
+    
+    
+    const encodedUrl = encodeURIComponent(returnUrl);
+    
+    // 4. Redirect to Crowbar Master Login
+   
+    res.redirect(`https://www.crowbarltd.com/login?redirect_to=${encodedUrl}`);
+});
+
+app.get('/auth/callback', (req, res) => {
+    res.render('callback', { title: 'Syncing Identity...' });
+});
 
 app.get('/product/:id', (req, res) => {
     const product = products.find(p => p.id == req.params.id);
@@ -114,7 +132,7 @@ app.get('/cart', (req, res) => {
     res.render('cart', { title: 'Your Bag', cart, total });
 });
 
-app.get('/checkout', (req, res) => res.redirect('https://crowbar-master-site.vercel.app/demo-checkout'));
+app.get('/checkout', (req, res) => res.redirect('https://www.crowbarltd.com/demo-checkout'));
 
 const PORT = process.env.PORT || 4000;
 if (require.main === module) {
