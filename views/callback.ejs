@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Authenticating...</title>
+    <title>Verifying...</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         body { 
@@ -10,50 +10,66 @@
             height: 100vh; background: #ffffff; font-family: sans-serif;
         }
         .loader { 
-            border: 4px solid #f3f3f3; border-top: 4px solid #4f46e5; 
+            border: 4px solid #f3f3f3; border-top: 4px solid #15803d; /* Green for EcoWorld */
             border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; 
             margin-bottom: 20px;
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .status { color: #666; font-weight: 500; }
     </style>
 </head>
 <body>
 
     <div class="loader"></div>
-    <p style="color: #666;">Verifying Crowbar ID...</p>
+    <p id="status" class="status">Verifying Crowbar ID...</p>
 
     <script>
-        // 1. CONFIG (Use your TalentKonnect Keys)
+        // 1. CONFIG (EcoWorldBuy)
         const SB_URL = 'https://zfxnhbymlhvukeqmsyhj.supabase.co';
-        const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpmeG5oYnltbGh2dWtlcW1zeWhqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE4MTIyMTIsImV4cCI6MjA3NzM4ODIxMn0.kKB1RsLvXJuROPlBY5bWeBzTWDGGe_UTouWkfSc7RXs';
+        const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpmeG5oYnltbGh2dWtlcW1zeWhqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE4MTIyMTIsImV4cCI6MjA3NzM4ODIxMn0.kKB1RsLvXJuROPlBY5bWeBzTWDGGe_UTouWkfSc7RXs'; // <--- PASTE YOUR KEY
         const client = supabase.createClient(SB_URL, SB_KEY);
 
         async function handleSSO() {
-            // 2. Supabase automatically detects the #access_token in the URL
-            const { data: { session }, error } = await client.auth.getSession();
+            // 2. Manual Hash Check (Fastest)
+            const hash = window.location.hash;
 
+            if (hash && hash.includes('access_token')) {
+                const params = new URLSearchParams(hash.substring(1));
+                const accessToken = params.get('access_token');
+
+                if (accessToken) {
+                    // Success!
+                    localStorage.setItem('crowbar_session', accessToken);
+                    
+                    // Fetch user data
+                    const { data } = await client.auth.getUser(accessToken);
+                    if (data && data.user) {
+                        localStorage.setItem('crowbar_user', JSON.stringify(data.user));
+                    }
+
+                    document.getElementById('status').innerText = "Success! Entering Shop...";
+                    document.getElementById('status').style.color = "#15803d";
+                    
+                    // --- REDIRECT TO SHOP ---
+                    setTimeout(() => window.location.href = '/shop', 500);
+                    return;
+                }
+            }
+
+            // 3. Fallback Check
+            const { data: { session } } = await client.auth.getSession();
             if (session) {
-                // 3. Save Session locally
                 localStorage.setItem('crowbar_session', session.access_token);
                 localStorage.setItem('crowbar_user', JSON.stringify(session.user));
-                
-                // 4. Success! Go to Dashboard
                 window.location.href = '/shop';
             } else {
-                // 5. If something failed, go back to home
-                console.error("SSO Failed");
-                setTimeout(() => { window.location.href = '/'; }, 2000);
+                // Failure Timeout
+                setTimeout(() => {
+                    document.getElementById('status').innerText = "Login Failed. Returning Home...";
+                    setTimeout(() => window.location.href = '/', 1000);
+                }, 2500);
             }
         }
-
-        // Listen for the auth event just in case
-        client.auth.onAuthStateChange((event, session) => {
-            if (event === 'SIGNED_IN' && session) {
-                localStorage.setItem('crowbar_session', session.access_token);
-                localStorage.setItem('crowbar_user', JSON.stringify(session.user));
-                window.location.href = '/dashboard';
-            }
-        });
 
         handleSSO();
     </script>

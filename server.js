@@ -20,20 +20,20 @@ app.use(session({
     cookie: { maxAge: 1000 * 60 * 60 * 24 }
 }));
 
-// --- NEW: GLOBAL VARIABLES MIDDLEWARE ---
+// --- GLOBAL MIDDLEWARE (Cart & Layout) ---
 app.use((req, res, next) => {
-    // 1. Cart Count Logic
+    // 1. Cart Count
     const cart = req.session.cart || [];
     const count = cart.reduce((sum, item) => sum + item.quantity, 0);
     res.locals.cartCount = count;
 
-    // 2. Default Layout Settings (Show Header/Footer by default)
+    // 2. Default Layout (Show Header/Footer)
     res.locals.hideLayout = false; 
 
     next();
 });
 
-// --- DATA ---
+// --- CORRECT PRODUCT DATA (Working Images) ---
 const products = [
    { 
         id: 1, 
@@ -67,30 +67,38 @@ const products = [
         { id: 6, name: "Minimalist Watch", price: 95.00, image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80", desc: "Sustainable materials, timeless design." }
 ];
 
-
 // --- ROUTES ---
+
 app.get('/', (req, res) => res.render('index', { title: 'Home', products }));
 app.get('/shop', (req, res) => res.render('shop', { title: 'Collection', products }));
 
+// --- SSO LOGIN ROUTE (Immediate Redirect) ---
+
+// --- ROUTES ---
+
+// 1. Home Page
+app.get('/', (req, res) => res.render('index', { title: 'Home', user: null }));
+
+// 2. Login Page
+
 app.get('/login', (req, res) => {
-    
+    // 1. Calculate the current domain (Localhost or Production)
     const protocol = req.headers['x-forwarded-proto'] || 'http';
     const host = req.headers['x-forwarded-host'] || req.get('host');
     const baseUrl = `${protocol}://${host}`;
     
-    
+    // 2. Define the return ticket
     const returnUrl = `${baseUrl}/auth/callback`;
-    
-    
     const encodedUrl = encodeURIComponent(returnUrl);
     
-    // 4. Redirect to Crowbar Master Login
-   
+    // 3. GO! Redirect immediately to Crowbar
+    // We use 'redirect_to' because that is what your Crowbar code looks for
     res.redirect(`https://www.crowbarltd.com/login?redirect_to=${encodedUrl}`);
 });
 
 app.get('/auth/callback', (req, res) => {
-    res.render('callback', { title: 'Syncing Identity...' });
+    
+    res.render('callback', { title: 'Syncing Identity...', hideLayout: true });
 });
 
 app.get('/product/:id', (req, res) => {
@@ -132,7 +140,7 @@ app.get('/cart', (req, res) => {
     res.render('cart', { title: 'Your Bag', cart, total });
 });
 
-app.get('/checkout', (req, res) => res.redirect('https://www.crowbarltd.com/demo-checkout'));
+app.get('/checkout', (req, res) => res.redirect('https://crowbar-master-site.vercel.app/demo-checkout'));
 
 const PORT = process.env.PORT || 4000;
 if (require.main === module) {

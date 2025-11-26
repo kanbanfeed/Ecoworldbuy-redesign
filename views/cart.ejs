@@ -7,7 +7,7 @@
         <div class="empty-cart">
             <h3 style="margin-bottom: 20px;">Your bag is empty</h3>
             <p style="color: #666; margin-bottom: 30px;">Looks like you haven't added anything yet.</p>
-            <a href="/shop" class="btn-checkout" style="width: auto; display: inline-block; padding: 15px 40px;">Continue Shopping</a>
+            <a href="/shop" class="btn-checkout" style="display: inline-block; width: auto; padding: 15px 40px; text-decoration: none;">Continue Shopping</a>
         </div>
     <% } else { %>
         
@@ -57,7 +57,7 @@
                 </div>
                 <div class="summary-row">
                     <span>Shipping</span>
-                    <span>Calculated at checkout</span>
+                    <span>Calculated at next step</span>
                 </div>
                 
                 <div class="total-row">
@@ -65,15 +65,42 @@
                     <span>$<%= total.toFixed(2) %></span>
                 </div>
 
-                <a href="/checkout" style="text-decoration: none;">
-                    <button class="btn-checkout">Checkout</button>
-                </a>
+                <button id="checkoutBtn" class="btn-checkout" onclick="processCheckout()">
+                    Secure Checkout
+                </button>
                 
                 <div class="secure-text">
-                    <i class="bi bi-lock-fill"></i> Secure checkout via Crowbar
+                    <i class="bi bi-lock-fill"></i> Secure checkout via Crowbar Pay
                 </div>
             </div>
         </div>
 
     <% } %>
 </div>
+
+<script>
+    function processCheckout() {
+        const btn = document.getElementById('checkoutBtn');
+        
+        // 1. Visual Feedback
+        btn.innerText = "Processing...";
+        btn.style.opacity = "0.7";
+        btn.disabled = true;
+
+        // 2. Check Login Status from Local Storage
+        const session = localStorage.getItem('crowbar_session');
+
+        setTimeout(() => {
+            if (session) {
+                // CASE A: USER LOGGED IN
+                // Redirect directly to Crowbar Dashboard
+// USE THE LIVE DOMAIN (Same as your login redirect)
+window.location.href = 'https://www.crowbarltd.com/dashboard';
+            } else {
+                // CASE B: USER NOT LOGGED IN
+                // Redirect to Login page
+                window.location.href = '/login';
+            }
+        }, 800);
+    }
+</script>
