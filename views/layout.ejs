@@ -33,40 +33,56 @@
         Free Carbon-Neutral Shipping on Orders Over $50
     </div>
 
-    <nav class="navbar">
-        <div class="container nav-container">
-            
-            <div style="display: flex; align-items: center; gap: 30px;">
-                <a href="/" class="nav-brand">
-                    <i class="bi bi-bag-fill" style="color: #F4A226;"></i> EcoWorld.
-                </a>
-                <div class="header-links">
-                    <a href="/">Home</a>
-                    <a href="/shop">Products</a>
-                </div>
-            </div>
-
-            <div class="nav-search">
-                <input type="text" placeholder="Search in products...">
-                <button>Search</button>
-            </div>
-
-            <div class="nav-icons">
-                
-                <a href="/cart" class="cart-icon">
-                    <i class="bi bi-cart3"></i>
-                    <span class="cart-count"><%= typeof cartCount !== 'undefined' ? cartCount : 0 %></span>
-                </a>
-                
-                <a href="/login" id="btn-login-nav">
-                    <i class="bi bi-person-circle"></i> Login
-                </a>
-
-                <a href="#" id="btn-logout-nav" class="auth-hidden" onclick="logout()">
-                    <i class="bi bi-box-arrow-right"></i> Logout
-                </a>
+   <nav class="navbar">
+    <div class="container nav-container">
+        <div style="display: flex; align-items: center; gap: 30px;">
+            <a href="/" class="nav-brand">
+                <i class="bi bi-bag-fill" style="color: #F4A226;"></i> EcoWorld.
+            </a>
+            <div class="header-links">
+                <a href="/">Home</a>
+                <a href="/shop">Products</a>
             </div>
         </div>
+ <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false">☰</button>
+
+            <div class="nav-search">
+            <input type="text" placeholder="Search in products...">
+            <button>Search</button>
+        </div>
+
+
+            <div class="nav-icons">
+            <a href="/cart" class="cart-icon">
+                <i class="bi bi-cart3"></i>
+                <span class="cart-count"><%= typeof cartCount !== 'undefined' ? cartCount : 0 %></span>
+            </a>
+                
+                 <a href="/login" id="btn-login-nav">
+                <i class="bi bi-person-circle"></i> Login
+            </a>
+
+            <a href="#" id="btn-logout-nav" class="auth-hidden" onclick="logout()">
+                <i class="bi bi-box-arrow-right"></i> Logout
+            </a>
+            </div>
+        </div>
+
+        <div class="mobile-nav" aria-hidden="true">
+        <!-- top links -->
+        <a class="mobile-item" href="/">Home</a>
+        <a class="mobile-item" href="/shop">Products</a>
+
+        <!-- mobile search -->
+        <div class="mobile-search">
+            <input type="text" placeholder="Search products...">
+            <button type="button">Search</button>
+        </div>
+
+        <!-- auth row -->
+        <a class="mobile-item" id="mobile-login" href="/login">Login</a>
+        <a class="mobile-item auth-hidden" id="mobile-logout" href="#" onclick="logout()">Logout</a>
+    </div>
     </nav>
 
     <%- body %>
@@ -113,6 +129,66 @@
             window.location.href = '/';
         }
     </script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const navToggle = document.querySelector('.nav-toggle');
+    const mobileNav = document.querySelector('.mobile-nav');
+
+    const loginBtn = document.getElementById('btn-login-nav');
+    const logoutBtn = document.getElementById('btn-logout-nav');
+    const mobileLogin = document.getElementById('mobile-login');
+    const mobileLogout = document.getElementById('mobile-logout');
+
+    // toggle mobile panel
+    if (navToggle && mobileNav) {
+      navToggle.addEventListener('click', function(e) {
+        const shown = mobileNav.classList.toggle('_show');
+        navToggle.setAttribute('aria-expanded', shown ? 'true' : 'false');
+        mobileNav.setAttribute('aria-hidden', shown ? 'false' : 'true');
+      });
+
+      // click outside to close
+      document.addEventListener('click', (e) => {
+        if (!mobileNav.contains(e.target) && !navToggle.contains(e.target)) {
+          mobileNav.classList.remove('_show');
+          navToggle.setAttribute('aria-expanded', 'false');
+          mobileNav.setAttribute('aria-hidden', 'true');
+        }
+      });
+
+      // prevent closing when clicking inside panel
+      mobileNav.addEventListener('click', (e) => e.stopPropagation());
+    }
+
+    // Mirror auth visibility in mobile panel
+    function syncAuth() {
+      const session = localStorage.getItem('crowbar_session');
+      if (session) {
+        if (loginBtn) loginBtn.classList.add('auth-hidden');
+        if (logoutBtn) logoutBtn.classList.remove('auth-hidden');
+        if (mobileLogin) mobileLogin.classList.add('auth-hidden');
+        if (mobileLogout) mobileLogout.classList.remove('auth-hidden');
+        // show crowbar banner if present
+        const banner = document.getElementById('crowbar-access-bar');
+        if (banner && window.location.pathname !== '/login') banner.style.display = 'block';
+      } else {
+        if (loginBtn) loginBtn.classList.remove('auth-hidden');
+        if (logoutBtn) logoutBtn.classList.add('auth-hidden');
+        if (mobileLogin) mobileLogin.classList.remove('auth-hidden');
+        if (mobileLogout) mobileLogout.classList.add('auth-hidden');
+      }
+    }
+
+    // initial sync
+    syncAuth();
+
+    // optionally listen for storage events (if login occurs in another tab)
+    window.addEventListener('storage', function(e) {
+      if (e.key === 'crowbar_session' || e.key === 'crowbar_user') syncAuth();
+    });
+  });
+</script>
 
 </body>
 </html>

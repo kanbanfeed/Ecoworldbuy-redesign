@@ -1015,3 +1015,77 @@ footer {
 footer h3 { color: white; margin-bottom: 10px; }
 footer p { color: rgba(255,255,255,0.7); }
 footer small { color: rgba(255,255,255,0.4); margin-top: 40px; display: block; }
+
+
+/* ---------- ECOWORLDBUY: mobile header + responsive tweaks ---------- */
+
+/* mobile toggler button (hidden on desktop) */
+.nav-toggle {
+  display: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.06);
+  color: var(--bg-white);
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+/* mobile nav panel (hidden by default) */
+.mobile-nav {
+  display: none;
+  position: absolute;
+  top: 72px;            /* adjust to navbar height */
+  left: 0;
+  width: 100%;
+  z-index: 1500;
+  padding: 18px;
+  background: linear-gradient(180deg, rgba(5, 75, 45, 0.98), rgba(8, 102, 64, 0.98));
+  color: #ecfdf5;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.35);
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+/* visible helper class */
+.mobile-nav._show { display:block; animation: nav-open .12s ease-out; }
+
+/* mobile nav content */
+.mobile-nav .mobile-item { display:block; padding: 12px 8px; border-bottom: 1px solid rgba(255,255,255,0.06); color: #ecfdf5; font-weight:700; }
+.mobile-nav .mobile-search { margin: 8px 0 14px; display:flex; gap:8px; }
+.mobile-nav .mobile-search input { flex:1; padding:10px 12px; border-radius:10px; border:none; outline:none; }
+.mobile-nav .mobile-search button { padding: 10px 14px; border-radius: 8px; border:none; background: var(--accent-yellow); color: #111; font-weight:700; }
+
+/* small tweak for cart count on mobile */
+.nav-icons .cart-count { font-size:0.65rem; padding: 2px 6px; top:-6px; right:-6px; }
+
+/* hide header-links on small screens (we will show them inside mobile panel) */
+@media (max-width: 900px) {
+  .header-links { display: none; }
+  .nav-search { display: none; } /* desktop search hidden; mobile search shown in panel */
+  .nav-toggle { display: inline-flex; }
+  .nav-container { position: relative; }
+  .nav-icons { gap: 14px; }
+  .nav-brand { font-size: 1.25rem; }
+}
+
+/* responsive hero and grid fallbacks */
+@media (max-width: 900px) {
+  .bento-grid { grid-template-columns: 1fr; height: auto; gap: 18px; }
+  .bento-main, .bento-card, .bento-right-tall { height: auto; padding: 28px; }
+  .bento-text { max-width: 100%; }
+  .btn-shop { padding: 10px 18px; }
+  .deal-img-wrap { height: 200px; padding: 14px; }
+}
+
+/* smaller phones minor adjustments */
+@media (max-width: 480px) {
+  .mobile-nav { top: 64px; padding: 14px; }
+  .nav-toggle { width:40px; height:40px; }
+}
+
+/* small animation */
+@keyframes nav-open { from { opacity:0; transform: translateY(-6px);} to { opacity:1; transform:none; } }
