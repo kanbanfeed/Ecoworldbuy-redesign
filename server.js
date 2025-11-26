@@ -139,6 +139,16 @@ app.get('/cart', (req, res) => {
     const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     res.render('cart', { title: 'Your Bag', cart, total });
 });
+app.get('/logout', (req, res) => {
+    // 1. Destroy the server-side cart session
+    req.session.destroy((err) => {
+        if (err) {
+            console.log(err);
+        }
+        // 2. Redirect home (Client-side script will clear LocalStorage)
+        res.redirect('/');
+    });
+});
 
 app.get('/checkout', (req, res) => res.redirect('https://crowbar-master-site.vercel.app/demo-checkout'));
 

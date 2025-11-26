@@ -120,14 +120,14 @@
         }
 
         // 2. Logout Function
-        function logout() {
-            // Clear the session keys
-            localStorage.removeItem('crowbar_session');
-            localStorage.removeItem('crowbar_user');
-            
-            // Refresh to update UI
-            window.location.href = '/';
-        }
+       function logout() {
+    // 1. Clear Client Data
+    localStorage.removeItem('crowbar_session');
+    localStorage.removeItem('crowbar_user');
+    
+    // 2. Hit Server Logout to clear Cart
+    window.location.href = '/logout'; 
+}
     </script>
 
 <script>
