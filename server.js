@@ -40,13 +40,13 @@ const products = [
     { id: 6, name: "Minimalist Watch", price: 95.00, image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80", desc: "Sustainable materials, timeless design." },
     
     // New 10 Placeholders
-    { id: 7, name: "Recycled Notebook", price: 12.00, image: "https://images.unsplash.com/photo-1531346878377-a513bc95f30f?auto=format&fit=crop&w=600&q=80", desc: "100% post-consumer waste paper." },
+    { id: 7, name: "Recycled Notebook", price: 12.00, image: "/images/notebook.jpg", desc: "100% post-consumer waste paper." },
     { id: 8, name: "Solar Power Bank", price: 55.00, image: "https://images.unsplash.com/photo-1620714223084-8fcacc6dfd8d?auto=format&fit=crop&w=600&q=80", desc: "Charge on the go with the sun." },
     { id: 9, name: "Hemp Backpack", price: 65.00, image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80", desc: "Durable, natural fiber carry-all." },
-    { id: 10, name: "Bamboo Cutlery Set", price: 15.00, image: "https://images.unsplash.com/photo-1584346133934-a3afd2a8d6f1?auto=format&fit=crop&w=600&q=80", desc: "Portable utensils for zero-waste lunch." },
+    { id: 10, name: "Bamboo Cutlery Set", price: 15.00, image: "/images/bamboo.jpg", desc: "Portable utensils for zero-waste lunch." },
     { id: 11, name: "Cork Yoga Mat", price: 48.00, image: "https://images.unsplash.com/photo-1592432678016-e910b452f9a2?auto=format&fit=crop&w=600&q=80", desc: "Non-slip, natural antimicrobial surface." },
     { id: 12, name: "Organic Cotton Tee", price: 25.00, image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=600&q=80", desc: "Soft, breathable, and fair trade." },
-    { id: 13, name: "Glass Straw Set", price: 10.00, image: "https://images.unsplash.com/photo-1572569666756-34c8c7f96582?auto=format&fit=crop&w=600&q=80", desc: "Borosilicate glass with cleaning brush." },
+    { id: 13, name: "Glass Straw Set", price: 10.00, image: "/images/bamboo.jpg", desc: "Borosilicate glass with cleaning brush." },
     { id: 14, name: "Beeswax Food Wraps", price: 22.00, image: "https://images.unsplash.com/photo-1530541930197-ff16ac917b0e?auto=format&fit=crop&w=600&q=80", desc: "Washable alternative to plastic wrap." },
     { id: 15, name: "Biodegradable Phone Case", price: 30.00, image: "https://images.unsplash.com/photo-1586953208448-b95a79798f07?auto=format&fit=crop&w=600&q=80", desc: "Compostable protection for your device." },
     { id: 16, name: "Upcycled Denim Jacket", price: 120.00, image: "https://images.unsplash.com/photo-1576995853123-5a10305d93c0?auto=format&fit=crop&w=600&q=80", desc: "Vintage denim given a second life." }
