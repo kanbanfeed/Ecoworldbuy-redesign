@@ -1,51 +1,117 @@
+<style>
+    /* 1. TIGHTER CARD SIZE */
+    .pdp-image-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 24px;
+        
+        /* FIX: Smaller height and restricted width */
+        height: 400px; 
+        max-width: 450px; 
+        width: 100%;
+        margin: 0 auto; /* Centers the card */
+        
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+        transition: box-shadow 0.3s ease;
+    }
+
+    /* 2. The Hover Zoom Effect */
+    .pdp-main-img {
+        max-height: 80%; /* Keeps image tight inside */
+        max-width: 80%;
+        object-fit: contain;
+        transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        mix-blend-mode: multiply;
+    }
+
+    .pdp-image-card:hover .pdp-main-img {
+        transform: scale(1.1);
+    }
+    .pdp-image-card:hover {
+        box-shadow: 0 20px 40px -10px rgba(0,0,0,0.1);
+    }
+
+    .floating-badge {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        background: #dcfce7;
+        color: #166534;
+        font-size: 0.8rem;
+        font-weight: 600;
+        padding: 5px 12px;
+        border-radius: 50px;
+        z-index: 2;
+    }
+</style>
+
 <div class="container fade-in-up" style="padding:2rem 0 1rem;">
-    <a href="/shop" class="link-arrow" style="gap:0.25rem;"><i class="bi bi-arrow-left"></i> Back to shop</a>
+    <a href="/shop" class="link-arrow" style="gap:0.5rem; display:inline-flex; align-items:center; color:var(--text-muted); font-weight:500;">
+        <i class="bi bi-arrow-left"></i> Back to shop
+    </a>
 </div>
 
 <div class="container pdp-wrapper fade-in-up">
+    
     <div class="pdp-gallery">
-        <div class="pill" style="width:max-content; margin-bottom:1rem;"><i class="bi bi-badge-ad"></i> Eco certified</div>
-        <img src="<%= product.image %>" alt="<%= product.name %>">
+        <div class="pdp-image-card">
+            <div class="floating-badge"><i class="bi bi-patch-check-fill"></i> Eco certified</div>
+            <img src="<%= product.image %>" alt="<%= product.name %>" class="pdp-main-img">
+        </div>
     </div>
 
     <div class="pdp-content">
-        <p class="eyebrow">Product details</p>
-        <h1><%= product.name %></h1>
+        <p class="eyebrow" style="color:var(--text-muted); font-size:0.9rem; text-transform:uppercase; letter-spacing:1px; font-weight:600; margin-bottom:0.5rem;">Product details</p>
+        
+        <h1 style="font-size:2.5rem; margin-bottom:1rem;"><%= product.name %></h1>
+        
         <div class="pdp-price-lg">
             $<%= product.price.toFixed(2) %>
-            <span style="font-size:0.9rem; color:var(--text-muted); font-weight:400; margin-left:0.5rem;">In stock · Ships in 48h</span>
+            <span class="credit-chip lg" style="background:#fffbeb; color:#b45309; padding:4px 12px; border-radius:50px; font-size:0.9rem; font-weight:700; margin-left:0.75rem; border:1px solid #fcd34d;">
+                <i class="bi bi-lightning-charge-fill"></i> <%= Math.round(product.price) %> credits
+            </span>
+            <span style="font-size:0.9rem; color:var(--text-muted); font-weight:400; margin-left:0.5rem; display:block; margin-top:0.5rem;">
+                <i class="bi bi-circle-fill" style="font-size:8px; color:#22c55e; margin-right:5px;"></i> In stock · Ships in 48h
+            </span>
         </div>
 
-        <p class="pdp-desc">
+        <p class="pdp-desc" style="line-height:1.7; color:#475569; margin:1.5rem 0;">
             <%= product.desc %>. Made with renewable materials, finished with low-impact dyes, and delivered in compostable packaging. Each purchase funds regenerative projects through our Crowbar partnership.
         </p>
 
-        <ul class="feature-list" style="margin:1.5rem 0;">
-            <li><i class="bi bi-check-circle"></i> Plastic-free + vegan components</li>
-            <li><i class="bi bi-check-circle"></i> Certified carbon-neutral shipment</li>
-            <li><i class="bi bi-check-circle"></i> Backed by 2-year repair guarantee</li>
+        <ul class="feature-list" style="margin:1.5rem 0; padding:0; list-style:none;">
+            <li style="margin-bottom:10px; display:flex; gap:10px;"><i class="bi bi-check-circle" style="color:var(--primary);"></i> Plastic-free + vegan components</li>
+            <li style="margin-bottom:10px; display:flex; gap:10px;"><i class="bi bi-check-circle" style="color:var(--primary);"></i> Certified carbon-neutral shipment</li>
+            <li style="margin-bottom:10px; display:flex; gap:10px;"><i class="bi bi-check-circle" style="color:var(--primary);"></i> Backed by 2-year repair guarantee</li>
         </ul>
 
-        <form action="/add-to-cart/<%= product.id %>" method="POST" class="pdp-actions">
-            <input type="number" name="quantity" value="1" min="1" max="10" class="qty-input">
-            <button type="submit" class="btn-main">
+        <form action="/add-to-cart/<%= product.id %>" method="POST" class="pdp-actions" style="display:flex; gap:1rem; margin-top:2rem;">
+            <input type="number" name="quantity" value="1" min="1" max="10" class="qty-input" style="width:80px; padding:12px; border-radius:12px; border:1px solid #cbd5e1; text-align:center; font-size:1.1rem;">
+            <button type="submit" class="btn-main" style="flex:1; background:var(--primary); color:white; border:none; border-radius:50px; font-weight:700; font-size:1.1rem; cursor:pointer; transition:0.3s; box-shadow:0 10px 20px -5px rgba(15,81,50,0.3);">
                 Add to cart
             </button>
         </form>
 
-        <div class="pdp-icons">
-            <div><i class="bi bi-box-seam"></i> Plastic-free packaging</div>
-            <div><i class="bi bi-airplane"></i> Worldwide ship</div>
-            <div><i class="bi bi-shield-check"></i> Repair guarantee</div>
+        <div class="pdp-icons" style="display:flex; justify-content:space-between; margin-top:3rem; padding-top:2rem; border-top:1px solid #e2e8f0; color:#64748b; font-size:0.85rem; text-align:center;">
+            <div><i class="bi bi-box-seam" style="font-size:1.5rem; display:block; margin-bottom:5px; color:var(--primary);"></i> Plastic-free</div>
+            <div><i class="bi bi-airplane" style="font-size:1.5rem; display:block; margin-bottom:5px; color:var(--primary);"></i> Global Ship</div>
+            <div><i class="bi bi-shield-check" style="font-size:1.5rem; display:block; margin-bottom:5px; color:var(--primary);"></i> Warranty</div>
         </div>
 
-        <div style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border);">
-            <h3>Reviews (<%= typeof reviews !== 'undefined' ? reviews.length : 0 %>)</h3>
+        <div style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #e2e8f0;">
+            <h3 style="font-size:1.2rem; margin-bottom:1rem;">Reviews (<%= typeof reviews !== 'undefined' ? reviews.length : 0 %>)</h3>
             <% if (typeof reviews !== 'undefined') { %>
                 <% reviews.forEach(r => { %>
-                    <div class="review-card">
-                        <strong><%= r.user %></strong> <span style="color: #f59e0b;">★★★★★</span>
-                        <p style="font-size: 0.9rem; color: #666; margin-top: 0.25rem;"><%= r.text %></p>
+                    <div class="review-card" style="background:#f8fafc; padding:1rem; border-radius:12px; margin-bottom:1rem;">
+                        <div style="display:flex; justify-content:space-between; margin-bottom:0.5rem;">
+                            <strong><%= r.user %></strong> 
+                            <span style="color: #f59e0b; font-size:0.9rem;">★★★★★</span>
+                        </div>
+                        <p style="font-size: 0.95rem; color: #475569; margin:0;"><%= r.text %></p>
                     </div>
                 <% }) %>
             <% } %>

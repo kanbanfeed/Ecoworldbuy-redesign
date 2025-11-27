@@ -23,8 +23,8 @@
             <ul class="nav-links">
                 <li><a href="/" class="nav-link">Home</a></li>
                 <li><a href="/shop" class="nav-link">New Arrivals</a></li>
-                <li><a href="/shop" class="nav-link">Home</a></li>
-                <li><a href="/shop" class="nav-link">Travel</a></li>
+               
+                
                 <li><a href="/cart" class="nav-link">My Bag</a></li>
             </ul>
 
@@ -60,10 +60,17 @@
 
     <%- body %>
 
-    <footer style="background: #f1f5f9; padding: 4rem 1.5rem; margin-top: 6rem; text-align: center; color: var(--text-muted);">
-        <h3 style="color: var(--primary); margin-bottom: 1rem;">EcoWorldBuy.</h3>
-        <p>Sustainable living for the modern age.</p>
-        <p style="font-size: 0.8rem; margin-top: 2rem;">© 2025 Crowbar Ecosystem. All rights reserved.</p>
+    <footer class="site-footer">
+        <div class="home-shell footer-main">
+            <div class="footer-brand">
+                <div class="footer-logo">EcoWorldBuy</div>
+                <p>Smart eco-commerce, transparent pricing.</p>
+            </div>
+            <div class="footer-network">
+                <span>Part of the <i class="bi bi-crown-fill"></i> Crowbar Connected Network</span>
+                <span>© <%= new Date().getFullYear() %> EcoWorldBuy. All rights reserved.</span>
+            </div>
+        </div>
     </footer>
 
     <script>

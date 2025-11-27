@@ -23,6 +23,7 @@
                 </a>
                 <p style="color:var(--text-muted); font-size:0.95rem;"><%= p.desc %></p>
                 <div class="card-price">$<%= p.price.toFixed(2) %></div>
+                <span class="credit-chip"><i class="bi bi-lightning-charge"></i><%= Math.round(p.price) %> credits</span>
 
                 <form action="/add-to-cart/<%= p.id %>" method="POST">
                     <input type="hidden" name="quantity" value="1">
