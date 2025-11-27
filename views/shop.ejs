@@ -1,32 +1,28 @@
-<div class="container fade-in-up" style="padding-top: 4rem; text-align: center; margin-bottom: 3rem;">
-    <h1 style="font-size: 3rem; color: var(--primary); margin-bottom: 0.5rem;">The Collection</h1>
-    <p style="color: var(--text-muted); font-size: 1.2rem;">Sustainably sourced. Ethically made.</p>
-</div>
-
-<div class="container">
-    
-    <div class="fade-in-up" style="display: flex; gap: 1rem; justify-content: center; margin-bottom: 3rem; flex-wrap: wrap;">
-        <button style="background: var(--primary); color: white; border: none; padding: 0.5rem 1.5rem; border-radius: 50px; font-weight: 600;">All</button>
-        <button style="background: white; border: 1px solid #ddd; padding: 0.5rem 1.5rem; border-radius: 50px; font-weight: 600; color: var(--text-muted);">Home</button>
-        <button style="background: white; border: 1px solid #ddd; padding: 0.5rem 1.5rem; border-radius: 50px; font-weight: 600; color: var(--text-muted);">Travel</button>
-        <button style="background: white; border: 1px solid #ddd; padding: 0.5rem 1.5rem; border-radius: 50px; font-weight: 600; color: var(--text-muted);">Accessories</button>
+<section class="container fade-in-up" style="padding:4rem 0 2rem;">
+    <p class="eyebrow">EcoWorld Collection</p>
+    <div class="section-heading" style="align-items:flex-start;">
+        <div>
+            <h1 style="margin-bottom:0.5rem;">Build your sustainable capsule</h1>
+            <p style="color:var(--text-muted); max-width:540px;">Minimal, durable, and circular goods for the home, commute, travel, and movement. Filter by vibe to discover your next staple.</p>
+        </div>
+        <a href="/cart" class="link-arrow">View cart <i class="bi bi-arrow-right"></i></a>
     </div>
+</section>
 
+<section class="container">
     <div class="grid">
         <% products.forEach((p, index) => { %>
             <div class="product-card fade-in-up" style="transition-delay: <%= (index % 4) * 50 %>ms">
-                
                 <a href="/product/<%= p.id %>" class="card-img-container">
                     <img src="<%= p.image %>" alt="<%= p.name %>" loading="lazy">
                 </a>
 
-                <div class="card-info">
-                    <span class="card-category">Sustainable</span>
-                    <a href="/product/<%= p.id %>">
-                        <h3 class="card-title"><%= p.name %></h3>
-                    </a>
-                    <div class="card-price">$<%= p.price.toFixed(2) %></div>
-                </div>
+                <span class="card-category">Sustainable</span>
+                <a href="/product/<%= p.id %>">
+                    <h3 class="card-title"><%= p.name %></h3>
+                </a>
+                <p style="color:var(--text-muted); font-size:0.95rem;"><%= p.desc %></p>
+                <div class="card-price">$<%= p.price.toFixed(2) %></div>
 
                 <form action="/add-to-cart/<%= p.id %>" method="POST">
                     <input type="hidden" name="quantity" value="1">
@@ -34,8 +30,7 @@
                         <i class="bi bi-plus-lg"></i>
                     </button>
                 </form>
-
             </div>
         <% }) %>
     </div>
-</div>
+</section>

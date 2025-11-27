@@ -1,56 +1,54 @@
+<div class="container fade-in-up" style="padding:2rem 0 1rem;">
+    <a href="/shop" class="link-arrow" style="gap:0.25rem;"><i class="bi bi-arrow-left"></i> Back to shop</a>
+</div>
+
 <div class="container pdp-wrapper fade-in-up">
-    
     <div class="pdp-gallery">
+        <div class="pill" style="width:max-content; margin-bottom:1rem;"><i class="bi bi-badge-ad"></i> Eco certified</div>
         <img src="<%= product.image %>" alt="<%= product.name %>">
     </div>
 
     <div class="pdp-content">
-        <div style="text-transform: uppercase; color: #d97706; font-weight: 700; margin-bottom: 0.5rem; letter-spacing: 1px;">
-            Eco Certified
-        </div>
-        
+        <p class="eyebrow">Product details</p>
         <h1><%= product.name %></h1>
-        <div class="pdp-price-lg">$<%= product.price.toFixed(2) %></div>
-        
+        <div class="pdp-price-lg">
+            $<%= product.price.toFixed(2) %>
+            <span style="font-size:0.9rem; color:var(--text-muted); font-weight:400; margin-left:0.5rem;">In stock · Ships in 48h</span>
+        </div>
+
         <p class="pdp-desc">
-            <%= product.desc %> <br><br>
-            Crafted with care for the planet. This item is plastic-free, 
-            biodegradable, and shipped in recycled packaging.
+            <%= product.desc %>. Made with renewable materials, finished with low-impact dyes, and delivered in compostable packaging. Each purchase funds regenerative projects through our Crowbar partnership.
         </p>
+
+        <ul class="feature-list" style="margin:1.5rem 0;">
+            <li><i class="bi bi-check-circle"></i> Plastic-free + vegan components</li>
+            <li><i class="bi bi-check-circle"></i> Certified carbon-neutral shipment</li>
+            <li><i class="bi bi-check-circle"></i> Backed by 2-year repair guarantee</li>
+        </ul>
 
         <form action="/add-to-cart/<%= product.id %>" method="POST" class="pdp-actions">
             <input type="number" name="quantity" value="1" min="1" max="10" class="qty-input">
             <button type="submit" class="btn-main">
-                Add to Cart
+                Add to cart
             </button>
         </form>
 
-        <div style="display: flex; gap: 2rem; margin-top: 3rem; color: var(--text-muted);">
-            <div style="text-align: center;">
-                <i class="bi bi-box-seam" style="font-size: 1.5rem; color: var(--primary);"></i>
-                <div style="font-size: 0.8rem; margin-top: 5px;">Plastic Free</div>
-            </div>
-            <div style="text-align: center;">
-                <i class="bi bi-airplane" style="font-size: 1.5rem; color: var(--primary);"></i>
-                <div style="font-size: 0.8rem; margin-top: 5px;">Global Ship</div>
-            </div>
-            <div style="text-align: center;">
-                <i class="bi bi-shield-check" style="font-size: 1.5rem; color: var(--primary);"></i>
-                <div style="font-size: 0.8rem; margin-top: 5px;">Warranty</div>
-            </div>
+        <div class="pdp-icons">
+            <div><i class="bi bi-box-seam"></i> Plastic-free packaging</div>
+            <div><i class="bi bi-airplane"></i> Worldwide ship</div>
+            <div><i class="bi bi-shield-check"></i> Repair guarantee</div>
         </div>
-        
-        <div style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #eee;">
+
+        <div style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border);">
             <h3>Reviews (<%= typeof reviews !== 'undefined' ? reviews.length : 0 %>)</h3>
             <% if (typeof reviews !== 'undefined') { %>
                 <% reviews.forEach(r => { %>
-                    <div style="margin-top: 1rem; background: #f8fafc; padding: 1rem; border-radius: 8px;">
+                    <div class="review-card">
                         <strong><%= r.user %></strong> <span style="color: #f59e0b;">★★★★★</span>
                         <p style="font-size: 0.9rem; color: #666; margin-top: 0.25rem;"><%= r.text %></p>
                     </div>
                 <% }) %>
             <% } %>
         </div>
-
     </div>
 </div>

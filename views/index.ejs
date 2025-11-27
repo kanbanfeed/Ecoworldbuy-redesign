@@ -1,104 +1,113 @@
-<header class="hero fade-in-up">
-    <div class="blob blob-1"></div>
-    <div class="blob blob-2"></div>
-    
-    <div style="position: relative; z-index: 1;">
-        <h1>Sustainable Goods.<br>Modern Design.</h1>
-        <p>Curated eco-friendly essentials for your home and lifestyle. 
-           Carbon neutral shipping on all orders.</p>
-        <a href="/shop" class="hero-btn">Shop The Collection</a>
-    </div>
-</header>
+<% const heroPrimary = products[0]; %>
+<% const heroStack = [products[4], products[2]]; %>
 
-<div class="fade-in-up" style="background: linear-gradient(180deg, #f1a7f1 0%, #f1f5f9 100%); padding: 5rem 1.5rem; margin-top: 2rem; border-radius: 32px; border: 1px solid #e2e8f0; position: relative; overflow: hidden;">
-    
-    <style>
-        /* Hover lift effect */
-        .hover-lift { transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease; }
-        .hover-lift:hover { transform: translateY(-10px); box-shadow: 0 25px 50px -12px rgba(0,0,0,0.15) !important; }
-        
-        /* Pulse animation for the badge */
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        .pulse-animation { animation: pulse 2s infinite ease-in-out; }
-    </style>
-
-    <div class="container" style="position: relative; z-index: 2;">
-        
-        <div style="text-align: center; margin-bottom: 3.5rem;">
-            <h2 style="font-size: 2.5rem; margin-bottom: 1rem; color: #0f172a;">Unlock More with Crowbar</h2>
-            <p style="color: #64748b; font-size: 1.1rem; max-width: 600px; margin: 0 auto;">Join the ecosystem. Earn rewards on every sustainable choice.</p>
+<section class="container hero fade-in-up">
+    <article class="hero-card">
+        <span class="pill"><i class="bi bi-sparkles"></i> New Season Edit</span>
+        <h1>Earth-first essentials for every ritual at home and on-the-go.</h1>
+        <p>Thoughtfully crafted objects that feel premium, perform hard, and protect the planet. Designed for the everyday routines you actually keep.</p>
+        <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+            <a href="/shop" class="btn btn-primary">Shop the collection</a>
+            <a href="/cart" class="btn btn-outline">View my bag</a>
         </div>
+        <div class="hero-meta">
+            <div><strong>4.9/5</strong> Average community rating</div>
+            <div><strong>72hr</strong> delivery to most states</div>
+            <div><strong>2× credits</strong> for Crowbar members</div>
+        </div>
+    </article>
 
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2.5rem;">
-            
-            <div class="fade-in-up hover-lift" style="padding: 2.5rem; border: 1px solid #e2e8f0; border-radius: 24px; background: #ffffff; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); transition-delay: 200ms;">
-                <h3 style="margin-bottom: 0.5rem; color: #64748b; font-size: 1.2rem; font-weight: 600;">Guest Shopper</h3>
-                <div style="font-size: 2.5rem; font-weight: 800; margin-bottom: 2rem; color: #0f172a;">Free</div>
-                
-                <ul style="text-align: left; margin-bottom: 0; color: #475569; list-style: none; padding: 0;">
-                    <li style="margin-bottom: 15px; display: flex; align-items: center; gap: 12px;">
-                        <i class="bi bi-check-circle" style="color: #10b981;"></i> Access to all products
-                    </li>
-                    <li style="margin-bottom: 15px; display: flex; align-items: center; gap: 12px;">
-                        <i class="bi bi-check-circle" style="color: #10b981;"></i> Standard Shipping
-                    </li>
-                    <li style="margin-bottom: 15px; display: flex; align-items: center; gap: 12px; opacity: 0.5;">
-                        <i class="bi bi-x-circle"></i> No Credit Rewards
-                    </li>
-                </ul>
-            </div>
+    <div class="hero-media">
+        <article class="hero-feature">
+            <div class="pill" style="width:max-content;"><i class="bi bi-leaf"></i> Spotlight</div>
+            <h3 style="margin:0.8rem 0 0.4rem;"><%= heroPrimary.name %></h3>
+            <p style="color:var(--text-muted); margin:0 0 1rem;">Electric clean, zero plastic impact.</p>
+            <img src="<%= heroPrimary.image %>" alt="<%= heroPrimary.name %> hero" loading="lazy">
+        </article>
 
-            <div class="fade-in-up hover-lift" style="padding: 2.5rem; background: #14532d; color: white; border-radius: 24px; position: relative; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(20, 83, 45, 0.3); border: 1px solid #14532d; transition-delay: 400ms;">
-                
-                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, transparent 100%); pointer-events: none;"></div>
-
-                <div class="pulse-animation" style="position: absolute; top: 0; right: 0; background: #F4A226; color: black; font-size: 0.75rem; font-weight: 800; padding: 8px 20px; border-bottom-left-radius: 16px; letter-spacing: 1px;">
-                    BEST VALUE
+        <div class="stack">
+            <% heroStack.forEach(item => { %>
+                <div class="stack-card">
+                    <img src="<%= item.image %>" alt="<%= item.name %>" loading="lazy">
+                    <small class="eyebrow" style="letter-spacing:0.1rem;">Curated</small>
+                    <strong><%= item.name %></strong>
+                    <span style="color:var(--text-muted); font-size:0.9rem;">$<%= item.price.toFixed(2) %></span>
                 </div>
-                
-                <h3 style="margin-bottom: 0.5rem; color: #86efac; font-size: 1.2rem; font-weight: 600;">Crowbar Member</h3>
-                <div style="font-size: 2.5rem; font-weight: 800; margin-bottom: 2rem; color: white;">Included</div>
-                
-                <ul style="text-align: left; margin-bottom: 0; list-style: none; padding: 0; color: #f0fdf4;">
-                    <li style="margin-bottom: 15px; display: flex; align-items: center; gap: 12px;">
-                        <i class="bi bi-check-circle-fill" style="color: #F4A226;"></i> <strong>2× Credits</strong> on purchases
-                    </li>
-                    <li style="margin-bottom: 15px; display: flex; align-items: center; gap: 12px;">
-                        <i class="bi bi-check-circle-fill" style="color: #F4A226;"></i> Carbon Neutral Shipping
-                    </li>
-                    <li style="margin-bottom: 15px; display: flex; align-items: center; gap: 12px;">
-                        <i class="bi bi-check-circle-fill" style="color: #F4A226;"></i> One-Click SSO Login
-                    </li>
-                </ul>
-            </div>
-
+            <% }) %>
         </div>
     </div>
-</div>
+</section>
 
-<div class="container" style="margin-top: 4rem;">
-    
-    <h2 class="section-title fade-in-up">Trending Now</h2>
+<section class="trust-bar container fade-in-up">
+    <div class="trust-item">
+        <span><i class="bi bi-truck"></i></span>
+        <p>Lightning-fast carbon neutral shipping</p>
+    </div>
+    <div class="trust-item">
+        <span><i class="bi bi-arrow-clockwise"></i></span>
+        <p>30-day no-questions returns</p>
+    </div>
+    <div class="trust-item">
+        <span><i class="bi bi-credit-card"></i></span>
+        <p>Crowbar Pay & secure checkout</p>
+    </div>
+    <div class="trust-item">
+        <span><i class="bi bi-award"></i></span>
+        <p>B Corp certified supply chain</p>
+    </div>
+</section>
+
+<section class="container fade-in-up" style="margin-bottom:4rem;">
+    <div class="section-heading">
+        <div>
+            <p class="eyebrow">Shop by vibe</p>
+            <h2>Curated drops for every routine</h2>
+        </div>
+        <a class="link-arrow" href="/shop">Browse all <i class="bi bi-arrow-right"></i></a>
+    </div>
+
+    <div class="category-grid">
+        <a class="category-card" href="/shop">
+            <img src="<%= products[5].image %>" alt="Desk reset">
+            <span>Desk reset</span>
+        </a>
+        <a class="category-card" href="/shop">
+            <img src="<%= products[3].image %>" alt="Daily commute">
+            <span>Daily commute</span>
+        </a>
+        <a class="category-card" href="/shop">
+            <img src="<%= products[2].image %>" alt="Farmers market">
+            <span>Farmers market</span>
+        </a>
+        <a class="category-card" href="/shop">
+            <img src="<%= products[10].image %>" alt="Movement">
+            <span>Studio & movement</span>
+        </a>
+    </div>
+</section>
+
+<section class="container" style="margin-top:2rem;">
+    <div class="section-heading">
+        <div>
+            <p class="eyebrow">Trending now</p>
+            <h2>Best sellers loved by the eco community</h2>
+        </div>
+        <a class="link-arrow" href="/shop">View all products <i class="bi bi-arrow-right"></i></a>
+    </div>
 
     <div class="grid">
         <% products.slice(0, 8).forEach((p, index) => { %>
             <div class="product-card fade-in-up" style="transition-delay: <%= index * 50 %>ms">
-                
                 <a href="/product/<%= p.id %>" class="card-img-container">
                     <img src="<%= p.image %>" alt="<%= p.name %>" loading="lazy">
                 </a>
 
-                <div class="card-info">
-                    <span class="card-category">Eco Essentials</span>
-                    <a href="/product/<%= p.id %>">
-                        <h3 class="card-title"><%= p.name %></h3>
-                    </a>
-                    <div class="card-price">$<%= p.price.toFixed(2) %></div>
-                </div>
+                <span class="card-category">Eco essentials</span>
+                <a href="/product/<%= p.id %>">
+                    <h3 class="card-title"><%= p.name %></h3>
+                </a>
+                <p style="color:var(--text-muted); font-size:0.95rem;"><%= p.desc %></p>
+                <div class="card-price">$<%= p.price.toFixed(2) %></div>
 
                 <form action="/add-to-cart/<%= p.id %>" method="POST">
                     <input type="hidden" name="quantity" value="1">
@@ -106,13 +115,76 @@
                         <i class="bi bi-plus-lg"></i>
                     </button>
                 </form>
-
             </div>
         <% }) %>
     </div>
-    
-    <div style="text-align: center; margin-bottom: 6rem;">
-        <a href="/shop" style="color: var(--primary); font-weight: 700; font-size: 1.1rem; border-bottom: 2px solid var(--primary);">View All Products &rarr;</a>
-    </div>
+</section>
 
-</div>
+<section class="container feature-panel fade-in-up">
+    <div>
+        <span class="pill"><i class="bi bi-bag-heart"></i> Bundled drop</span>
+        <h2 style="margin:1rem 0;">Home Reset Ritual Kit</h2>
+        <p style="color:rgba(255,255,255,0.85);">Three handcrafted staples curated for cozy evenings: the Amber Soy Candle, our Canvas Market Tote, and the Matte Thermal Bottle.</p>
+        <ul class="feature-list">
+            <li><i class="bi bi-check-circle"></i> Save 15% when purchased together</li>
+            <li><i class="bi bi-check-circle"></i> Ships plastic-free in recycled pulp</li>
+            <li><i class="bi bi-check-circle"></i> Includes carbon offset certificate</li>
+        </ul>
+        <div style="margin-top:1.5rem;">
+            <a href="/shop" class="btn btn-primary" style="background:#fff; color:#0f0f0f;">Build the bundle</a>
+        </div>
+    </div>
+    <div style="display:grid; gap:1rem;">
+        <img src="/images/candle.jpg" alt="Amber Soy Candle" loading="lazy">
+        <img src="/images/tote.jpg" alt="Canvas Tote" loading="lazy">
+    </div>
+</section>
+
+<section class="container membership-split fade-in-up">
+    <article class="membership-card">
+        <p class="eyebrow">Guest Mode</p>
+        <h3>Shop anytime</h3>
+        <p style="color:var(--text-muted);">Access the full assortment, standard shipping, and pay-as-you-go checkout.</p>
+        <ul>
+            <li><i class="bi bi-check-circle" style="color:var(--primary);"></i> All collections unlocked</li>
+            <li><i class="bi bi-check-circle"></i> Standard 5–7 day delivery</li>
+            <li><i class="bi bi-check-circle"></i> Manual checkout</li>
+        </ul>
+    </article>
+    <article class="membership-card highlight">
+        <div class="pill" style="background:rgba(255,255,255,0.15); color:#fff;">Best value</div>
+        <h3 style="margin:0;">Crowbar Member</h3>
+        <p style="color:rgba(255,255,255,0.8);">Included with your Crowbar identity. Unlock 2× credits, carbon-neutral express shipping, and one-tap checkout.</p>
+        <ul style="color:#fff;">
+            <li><i class="bi bi-check-circle-fill"></i> 2× Eco credits on every order</li>
+            <li><i class="bi bi-check-circle-fill"></i> Free express delivery</li>
+            <li><i class="bi bi-check-circle-fill"></i> Auto-fill from your profile</li>
+        </ul>
+        <a href="/login" class="btn btn-primary" style="background:#fff; color:#0f5132;">Link my Crowbar</a>
+    </article>
+</section>
+
+<section class="container testimonial-grid fade-in-up">
+    <div class="testimonial-card">
+        <p>"Quality rivals luxury brands, but everything is traceable and recyclable. My entire kitchen is EcoWorld now."</p>
+        <strong>Alex M.</strong>
+    </div>
+    <div class="testimonial-card">
+        <p>"Crowbar checkout plus EcoWorld perks? Took 20 seconds to reorder my ritual kit. Customer for life."</p>
+        <strong>Crowbar User</strong>
+    </div>
+    <div class="testimonial-card">
+        <p>"Love the textures, the palette, and the mission. Shipping box was compostable too."</p>
+        <strong>Sarah J.</strong>
+    </div>
+</section>
+
+<section class="container cta-banner fade-in-up">
+    <h2>Ready to upgrade your essentials?</h2>
+    <p>Build a better capsule for home, travel, and work with products that care for the planet as much as you do.</p>
+    <div style="display:flex; justify-content:center; gap:1rem; flex-wrap:wrap;">
+        <a href="/shop" class="btn btn-primary">Explore the catalog</a>
+        <a href="/cart" class="btn btn-outline" style="color:#fff; border-color:rgba(255,255,255,0.4);">Review my bag</a>
+    </div>
+</section>
+
