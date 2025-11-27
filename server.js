@@ -20,91 +20,66 @@ app.use(session({
     cookie: { maxAge: 1000 * 60 * 60 * 24 }
 }));
 
-// --- GLOBAL MIDDLEWARE (Cart & Layout) ---
+// --- GLOBAL MIDDLEWARE ---
 app.use((req, res, next) => {
-    // 1. Cart Count
     const cart = req.session.cart || [];
     const count = cart.reduce((sum, item) => sum + item.quantity, 0);
     res.locals.cartCount = count;
-
-    // 2. Default Layout (Show Header/Footer)
     res.locals.hideLayout = false; 
-
     next();
 });
 
-// --- CORRECT PRODUCT DATA (Working Images) ---
+// --- DATA: 16 PRODUCTS ---
 const products = [
-   { 
-        id: 1, 
-        name: "Bamboo Sonic Brush", 
-        price: 45.00, 
-        image: "/images/brush.jpg", // Points to public/images/brush.jpg
-        desc: "Electric clean, zero plastic." 
-    },
-    { 
-        id: 2, 
-        name: "Matte Thermal Bottle", 
-        price: 32.00, 
-        image: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&w=600&q=80", 
-        desc: "Keeps hydration cold for 24h." 
-    },
-    { 
-        id: 3, 
-        name: "Canvas Market Tote", 
-        price: 18.00, 
-        image: "/images/tote.jpg", 
-        desc: "Organic cotton daily carrier." 
-    },
+    // Original 6
+    { id: 1, name: "Bamboo Sonic Brush", price: 45.00, image: "/images/brush.jpg", desc: "Electric clean, zero plastic." },
+    { id: 2, name: "Matte Thermal Bottle", price: 32.00, image: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&w=600&q=80", desc: "Keeps hydration cold for 24h." },
+    { id: 3, name: "Canvas Market Tote", price: 18.00, image: "/images/tote.jpg", desc: "Organic cotton daily carrier." },
     { id: 4, name: "Ceramic Travel Cup", price: 24.00, image: "https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?auto=format&fit=crop&w=600&q=80", desc: "Barista standard reusable cup." },
-{ 
-        id: 5, 
-        name: "Amber Soy Candle", 
-        price: 28.00, 
-        image: "/images/candle.jpg", 
-        desc: "Hand-poured essential oils." 
-    },
-        { id: 6, name: "Minimalist Watch", price: 95.00, image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80", desc: "Sustainable materials, timeless design." }
+    { id: 5, name: "Amber Soy Candle", price: 28.00, image: "/images/candle.jpg", desc: "Hand-poured essential oils." },
+    { id: 6, name: "Minimalist Watch", price: 95.00, image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80", desc: "Sustainable materials, timeless design." },
+    
+    // New 10 Placeholders
+    { id: 7, name: "Recycled Notebook", price: 12.00, image: "https://images.unsplash.com/photo-1531346878377-a513bc95f30f?auto=format&fit=crop&w=600&q=80", desc: "100% post-consumer waste paper." },
+    { id: 8, name: "Solar Power Bank", price: 55.00, image: "https://images.unsplash.com/photo-1620714223084-8fcacc6dfd8d?auto=format&fit=crop&w=600&q=80", desc: "Charge on the go with the sun." },
+    { id: 9, name: "Hemp Backpack", price: 65.00, image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80", desc: "Durable, natural fiber carry-all." },
+    { id: 10, name: "Bamboo Cutlery Set", price: 15.00, image: "https://images.unsplash.com/photo-1584346133934-a3afd2a8d6f1?auto=format&fit=crop&w=600&q=80", desc: "Portable utensils for zero-waste lunch." },
+    { id: 11, name: "Cork Yoga Mat", price: 48.00, image: "https://images.unsplash.com/photo-1592432678016-e910b452f9a2?auto=format&fit=crop&w=600&q=80", desc: "Non-slip, natural antimicrobial surface." },
+    { id: 12, name: "Organic Cotton Tee", price: 25.00, image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=600&q=80", desc: "Soft, breathable, and fair trade." },
+    { id: 13, name: "Glass Straw Set", price: 10.00, image: "https://images.unsplash.com/photo-1572569666756-34c8c7f96582?auto=format&fit=crop&w=600&q=80", desc: "Borosilicate glass with cleaning brush." },
+    { id: 14, name: "Beeswax Food Wraps", price: 22.00, image: "https://images.unsplash.com/photo-1530541930197-ff16ac917b0e?auto=format&fit=crop&w=600&q=80", desc: "Washable alternative to plastic wrap." },
+    { id: 15, name: "Biodegradable Phone Case", price: 30.00, image: "https://images.unsplash.com/photo-1586953208448-b95a79798f07?auto=format&fit=crop&w=600&q=80", desc: "Compostable protection for your device." },
+    { id: 16, name: "Upcycled Denim Jacket", price: 120.00, image: "https://images.unsplash.com/photo-1576995853123-5a10305d93c0?auto=format&fit=crop&w=600&q=80", desc: "Vintage denim given a second life." }
+];
+
+// --- PLACEHOLDER REVIEWS ---
+const reviews = [
+    { user: "Alex M.", rating: 5, text: "Incredible quality and fast shipping. Love the eco-packaging!" },
+    { user: "Sarah J.", rating: 4, text: "Great product, exactly as described. Will buy again." },
+    { user: "Crowbar User", rating: 5, text: "Used my Crowbar credits for this. Totally worth it." }
 ];
 
 // --- ROUTES ---
-
 app.get('/', (req, res) => res.render('index', { title: 'Home', products }));
 app.get('/shop', (req, res) => res.render('shop', { title: 'Collection', products }));
 
-// --- SSO LOGIN ROUTE (Immediate Redirect) ---
-
-// --- ROUTES ---
-
-// 1. Home Page
-app.get('/', (req, res) => res.render('index', { title: 'Home', user: null }));
-
-// 2. Login Page
-
 app.get('/login', (req, res) => {
-    // 1. Calculate the current domain (Localhost or Production)
     const protocol = req.headers['x-forwarded-proto'] || 'http';
     const host = req.headers['x-forwarded-host'] || req.get('host');
     const baseUrl = `${protocol}://${host}`;
-    
-    // 2. Define the return ticket
     const returnUrl = `${baseUrl}/auth/callback`;
     const encodedUrl = encodeURIComponent(returnUrl);
-    
-    // 3. GO! Redirect immediately to Crowbar
-    // We use 'redirect_to' because that is what your Crowbar code looks for
     res.redirect(`https://www.crowbarltd.com/login?redirect_to=${encodedUrl}`);
 });
 
 app.get('/auth/callback', (req, res) => {
-    
     res.render('callback', { title: 'Syncing Identity...', hideLayout: true });
 });
 
 app.get('/product/:id', (req, res) => {
     const product = products.find(p => p.id == req.params.id);
     if (!product) return res.send("Product not found");
-    res.render('product', { title: product.name, product });
+    res.render('product', { title: product.name, product, reviews }); // Pass reviews here
 });
 
 app.post('/add-to-cart/:id', (req, res) => {
@@ -139,13 +114,10 @@ app.get('/cart', (req, res) => {
     const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     res.render('cart', { title: 'Your Bag', cart, total });
 });
+
 app.get('/logout', (req, res) => {
-    // 1. Destroy the server-side cart session
     req.session.destroy((err) => {
-        if (err) {
-            console.log(err);
-        }
-        // 2. Redirect home (Client-side script will clear LocalStorage)
+        if (err) console.log(err);
         res.redirect('/');
     });
 });

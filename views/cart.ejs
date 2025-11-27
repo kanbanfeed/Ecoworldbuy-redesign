@@ -1,116 +1,131 @@
-<div class="cart-page">
-    <div class="cart-header">
-        <h1>Your Bag</h1>
-    </div>
+<div class="container fade-in-up" style="padding-top: 3rem; margin-bottom: 5rem;">
+    
+    <h1 style="font-size: 2.5rem; margin-bottom: 2rem;">Your Bag <span style="font-size: 1rem; color: var(--text-muted); font-weight: 400;">(<%= cart.length %> items)</span></h1>
 
     <% if (cart.length === 0) { %>
-        <div class="empty-cart">
-            <h3 style="margin-bottom: 20px;">Your bag is empty</h3>
-            <p style="color: #666; margin-bottom: 30px;">Looks like you haven't added anything yet.</p>
-            <a href="/shop" class="btn-checkout" style="display: inline-block; width: auto; padding: 15px 40px; text-decoration: none;">Continue Shopping</a>
+        <div style="text-align: center; padding: 4rem; background: white; border-radius: var(--radius-lg); border: 1px solid #eee;">
+            <i class="bi bi-bag" style="font-size: 3rem; color: #ddd; margin-bottom: 1rem; display: block;"></i>
+            <h3>Your bag is empty</h3>
+            <p style="color: var(--text-muted); margin-bottom: 2rem;">Looks like you haven't added anything yet.</p>
+            <a href="/shop" class="hero-btn">Continue Shopping</a>
         </div>
     <% } else { %>
-        
-        <div class="cart-grid">
-            <div class="cart-items">
+
+        <div class="cart-wrapper" style="display: grid; grid-template-columns: 1fr 380px; gap: 3rem;">
+            
+            <div class="cart-items" style="display: flex; flex-direction: column; gap: 1.5rem;">
                 <% cart.forEach(item => { %>
-                    <div class="cart-item">
-                        <img src="<%= item.image %>" alt="<%= item.name %>" class="cart-img">
+                    <div class="cart-card" style="display: flex; gap: 1.5rem; background: white; padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid #f1f5f9; align-items: center;">
                         
-                        <div class="item-info">
-                            <h4><%= item.name %></h4>
-                            
-                            <div class="qty-selector">
-                                <form action="/update-cart" method="POST" style="margin:0;">
-                                    <input type="hidden" name="productId" value="<%= item.id %>">
-                                    <input type="hidden" name="action" value="decrease">
-                                    <button type="submit" class="qty-btn">-</button>
-                                </form>
+                        <div style="width: 100px; height: 100px; background: #f8fafc; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                            <img src="<%= item.image %>" style="width: 80%; height: 80%; object-fit: contain; mix-blend-mode: multiply;">
+                        </div>
 
-                                <span class="qty-number"><%= item.quantity %></span>
+                        <div style="flex: 1;">
+                            <h4 style="font-size: 1.1rem; margin-bottom: 0.25rem;"><%= item.name %></h4>
+                            <div style="color: var(--primary); font-weight: 700;">$<%= item.price.toFixed(2) %></div>
+                        </div>
 
-                                <form action="/update-cart" method="POST" style="margin:0;">
-                                    <input type="hidden" name="productId" value="<%= item.id %>">
-                                    <input type="hidden" name="action" value="increase">
-                                    <button type="submit" class="qty-btn">+</button>
-                                </form>
-                            </div>
-
-                            <form action="/update-cart" method="POST">
+                        <div style="display: flex; align-items: center; gap: 0.5rem; background: #f1f5f9; padding: 0.25rem; border-radius: 50px;">
+                            <form action="/update-cart" method="POST" style="margin:0;">
                                 <input type="hidden" name="productId" value="<%= item.id %>">
-                                <input type="hidden" name="action" value="remove">
-                                <button type="submit" class="remove-btn">Remove</button>
+                                <input type="hidden" name="action" value="decrease">
+                                <button style="width: 30px; height: 30px; border-radius: 50%; border: none; background: white; cursor: pointer;">-</button>
+                            </form>
+                            
+                            <span style="font-weight: 600; min-width: 20px; text-align: center;"><%= item.quantity %></span>
+
+                            <form action="/update-cart" method="POST" style="margin:0;">
+                                <input type="hidden" name="productId" value="<%= item.id %>">
+                                <input type="hidden" name="action" value="increase">
+                                <button style="width: 30px; height: 30px; border-radius: 50%; border: none; background: white; cursor: pointer;">+</button>
                             </form>
                         </div>
-                        
-                        <div class="item-price">
-                            $<%= (item.price * item.quantity).toFixed(2) %>
-                        </div>
+
+                        <form action="/update-cart" method="POST" style="margin:0;">
+                            <input type="hidden" name="productId" value="<%= item.id %>">
+                            <input type="hidden" name="action" value="remove">
+                            <button style="background: none; border: none; color: #ef4444; font-size: 1.2rem; cursor: pointer; padding: 0.5rem;">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </form>
                     </div>
                 <% }); %>
             </div>
 
-            <div class="cart-summary">
-                <div class="summary-row">
-                    <span>Subtotal</span>
-                    <span>$<%= total.toFixed(2) %></span>
-                </div>
-                <div class="summary-row">
-                    <span>Shipping</span>
-                    <span>Calculated at next step</span>
-                </div>
-                
-                <div class="total-row">
-                    <span>Total</span>
-                    <span>$<%= total.toFixed(2) %></span>
-                </div>
+            <div class="cart-summary" style="height: fit-content; position: sticky; top: 100px;">
+                <div style="background: white; padding: 2rem; border-radius: var(--radius-lg); border: 1px solid #f1f5f9; box-shadow: var(--shadow-lg);">
+                    <h3 style="margin-bottom: 1.5rem; font-size: 1.25rem;">Order Summary</h3>
+                    
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; color: var(--text-muted);">
+                        <span>Subtotal</span>
+                        <span>$<%= total.toFixed(2) %></span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; color: var(--text-muted);">
+                        <span>Shipping</span>
+                        <span style="color: var(--primary); font-weight: 600;">Free</span>
+                    </div>
+                    
+                    <div style="border-top: 1px solid #eee; margin: 1.5rem 0;"></div>
+                    
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 2rem; font-size: 1.5rem; font-weight: 800;">
+                        <span>Total</span>
+                        <span>$<%= total.toFixed(2) %></span>
+                    </div>
 
-                <button id="checkoutBtn" class="btn-checkout" onclick="processCheckout()">
-                    Secure Checkout
-                </button>
-                
-                <div class="secure-text">
-                    <i class="bi bi-lock-fill"></i> Secure checkout via Crowbar Pay
+                    <button id="checkoutBtn" onclick="processCheckout()" style="width: 100%; background: #000; color: white; border: none; padding: 1.2rem; border-radius: 50px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: 0.3s;">
+                        Secure Checkout
+                    </button>
+                    
+                    <div style="text-align: center; margin-top: 1rem; font-size: 0.8rem; color: var(--text-muted); display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                        <i class="bi bi-lock-fill"></i> Encrypted with Crowbar Pay
+                    </div>
                 </div>
             </div>
+
         </div>
 
     <% } %>
 </div>
 
+<style>
+    @media (max-width: 900px) {
+        .cart-wrapper { grid-template-columns: 1fr !important; gap: 2rem !important; }
+        .cart-card { flex-direction: column; align-items: flex-start !important; gap: 1rem !important; position: relative; }
+        .cart-card form:last-child { position: absolute; top: 1rem; right: 1rem; } /* Remove button positioning */
+        .cart-summary { position: static !important; }
+    }
+</style>
+
 <script>
-    // 1. The Click Action
     function processCheckout() {
         const btn = document.getElementById('checkoutBtn');
         
-        // Change UI to show activity
+        // 1. Visual Feedback
         btn.innerText = "Processing...";
         btn.style.opacity = "0.7";
-        btn.disabled = true; // Disable to prevent double-clicks
-
-        // Check Session
+        btn.style.cursor = "not-allowed";
+        btn.disabled = true; // Prevent double clicks
+        
+        // 2. Logic
         const session = localStorage.getItem('crowbar_session');
-
         setTimeout(() => {
             if (session) {
-                // Logged in -> Go to Master Dashboard
                 window.location.href = 'https://www.crowbarltd.com/demo-checkout';
             } else {
-                // Not Logged in -> Go to Login
                 window.location.href = '/login';
             }
         }, 800);
     }
 
-    // 2. THE FIX: Reset Button on "Back" Navigation
-    // This event fires every time the page appears (load or history back)
+    // --- THE FIX: Reset button when user hits "Back" ---
     window.addEventListener('pageshow', function(event) {
         const btn = document.getElementById('checkoutBtn');
         if (btn) {
-            // Force reset the button state
             btn.innerText = "Secure Checkout";
-            btn.disabled = false;
             btn.style.opacity = "1";
+            btn.style.cursor = "pointer";
+            btn.disabled = false;
         }
     });
 </script>

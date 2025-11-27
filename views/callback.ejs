@@ -2,76 +2,160 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Verifying...</title>
+    <title>Verifying Identity...</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
     <style>
-        body { 
-            display: flex; flex-direction: column; justify-content: center; align-items: center; 
-            height: 100vh; background: #ffffff; font-family: sans-serif;
+        :root {
+            --font-main: 'Outfit', sans-serif;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --success-green: #22c55e;
+            --bg-overlay: #f8fafc; /* Solid light gray background color */
         }
-        .loader { 
-            border: 4px solid #f3f3f3; border-top: 4px solid #15803d; /* Green for EcoWorld */
-            border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; 
-            margin-bottom: 20px;
+
+        /* THE FIX: A full-screen overlay that sits on top of everything 
+           and provides the solid background color.
+        */
+        .callback-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: var(--bg-overlay);
+            z-index: 99999; /* Ensure it's on top of the main site layout */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: var(--font-main);
         }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .status { color: #666; font-weight: 500; }
+
+        .card-container {
+            background: #ffffff;
+            padding: 3.5rem 4rem;
+            border-radius: 30px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.08);
+            text-align: center;
+            max-width: 480px;
+            width: 90%;
+            /* Initial state for animation */
+            transform: translateY(20px);
+            opacity: 0;
+            animation: slideUpFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* The large icon area */
+        #icon-area {
+            font-size: 5.5rem;
+            line-height: 1;
+            margin-bottom: 1.5rem;
+            height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 0 0 0.75rem 0;
+            letter-spacing: -0.5px;
+        }
+
+        p {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Initial Loader State */
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 5px solid #e2e8f0;
+            border-top-color: var(--text-muted);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        /* Animations */
+        @keyframes slideUpFadeIn { to { transform: translateY(0); opacity: 1; } }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .pop-in { animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        @keyframes popIn { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
     </style>
 </head>
 <body>
 
-    <div class="loader"></div>
-    <p id="status" class="status">Verifying Crowbar ID...</p>
+    <div class="callback-overlay">
+        <div class="card-container">
+            <div id="icon-area">
+                <div class="spinner"></div>
+            </div>
+            
+            <h1 id="title-text">Verifying...</h1>
+            <p id="subtitle-text">Securely connecting to Crowbar.</p>
+        </div>
+    </div>
 
     <script>
-        // 1. CONFIG (EcoWorldBuy)
+        // 1. CONFIG
         const SB_URL = 'https://zfxnhbymlhvukeqmsyhj.supabase.co';
-        const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpmeG5oYnltbGh2dWtlcW1zeWhqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE4MTIyMTIsImV4cCI6MjA3NzM4ODIxMn0.kKB1RsLvXJuROPlBY5bWeBzTWDGGe_UTouWkfSc7RXs'; // <--- PASTE YOUR KEY
+        const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpmeG5oYnltbGh2dWtlcW1zeWhqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE4MTIyMTIsImV4cCI6MjA3NzM4ODIxMn0.kKB1RsLvXJuROPlBY5bWeBzTWDGGe_UTouWkfSc7RXs';
         const client = supabase.createClient(SB_URL, SB_KEY);
 
-        async function handleSSO() {
-            // 2. Manual Hash Check (Fastest)
-            const hash = window.location.hash;
+        const iconArea = document.getElementById('icon-area');
+        const titleText = document.getElementById('title-text');
+        const subtitleText = document.getElementById('subtitle-text');
 
+        function showSuccess() {
+            iconArea.style.color = "var(--success-green)";
+            iconArea.innerHTML = '<i class="bi bi-check-circle-fill pop-in"></i>';
+            titleText.innerText = "Welcome to EcoWorld!";
+            subtitleText.innerText = "Successfully authenticated! Redirecting to shop...";
+            setTimeout(() => { window.location.href = '/shop'; }, 1500);
+        }
+
+        function showError() {
+            iconArea.innerHTML = '<i class="bi bi-x-circle-fill pop-in" style="color: #ef4444;"></i>';
+            titleText.innerText = "Authentication Failed";
+            subtitleText.innerText = "Returning to home page...";
+            setTimeout(() => window.location.href = '/', 2000);
+        }
+
+        async function handleSSO() {
+            const hash = window.location.hash;
             if (hash && hash.includes('access_token')) {
                 const params = new URLSearchParams(hash.substring(1));
                 const accessToken = params.get('access_token');
-
                 if (accessToken) {
-                    // Success!
                     localStorage.setItem('crowbar_session', accessToken);
-                    
-                    // Fetch user data
                     const { data } = await client.auth.getUser(accessToken);
                     if (data && data.user) {
                         localStorage.setItem('crowbar_user', JSON.stringify(data.user));
                     }
-
-                    document.getElementById('status').innerText = "Success! Entering Shop...";
-                    document.getElementById('status').style.color = "#15803d";
-                    
-                    // --- REDIRECT TO SHOP ---
-                    setTimeout(() => window.location.href = '/shop', 500);
+                    showSuccess();
                     return;
                 }
             }
-
-            // 3. Fallback Check
             const { data: { session } } = await client.auth.getSession();
             if (session) {
                 localStorage.setItem('crowbar_session', session.access_token);
                 localStorage.setItem('crowbar_user', JSON.stringify(session.user));
-                window.location.href = '/shop';
+                showSuccess();
             } else {
-                // Failure Timeout
-                setTimeout(() => {
-                    document.getElementById('status').innerText = "Login Failed. Returning Home...";
-                    setTimeout(() => window.location.href = '/', 1000);
-                }, 2500);
+                if (!hash) showError();
             }
         }
 
-        handleSSO();
+        setTimeout(handleSSO, 500);
     </script>
 </body>
 </html>
