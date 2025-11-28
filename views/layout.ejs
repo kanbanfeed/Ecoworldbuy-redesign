@@ -50,14 +50,21 @@
         </div>
     </nav>
 
-    <div class="mobile-menu">
-        <button class="close-menu">×</button>
+   <div class="mobile-menu">
+        <button class="close-menu"><i class="bi bi-x-lg"></i></button>
+        
         <a href="/" class="mobile-link">Home</a>
-        <a href="/shop" class="mobile-link">Shop All</a>
-        <a href="/shop" class="mobile-link">Home</a>
-        <a href="/shop" class="mobile-link">Travel</a>
-        <a href="/cart" class="mobile-link">Cart (<%= typeof cartCount !== 'undefined' ? cartCount : 0 %>)</a>
-        <a href="/login" class="btn-crowbar" id="mobile-login-btn">Login with Crowbar</a>
+        <a href="/shop" class="mobile-link">New Arrivals</a>
+        <a href="/cart" class="mobile-link">
+            My Bag 
+            <span class="badge" style="background: #f4a226; color:black; font-size:0.8rem; padding:2px 8px; border-radius:50px; vertical-align:middle; margin-left:5px;">
+                <%= typeof cartCount !== 'undefined' ? cartCount : 0 %>
+            </span>
+        </a>
+
+        <a href="/login" class="btn-crowbar-login" id="mobile-login-btn" style="justify-content:center; margin-top:1rem;">
+            <i class="bi bi-person-fill"></i> Login with Crowbar
+        </a>
     </div>
 
     <%- body %>

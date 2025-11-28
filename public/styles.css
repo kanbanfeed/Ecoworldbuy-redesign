@@ -103,7 +103,7 @@ ul { padding: 0; margin: 0; list-style: none; }
     color: #fff;
     box-shadow: var(--shadow-soft);
 }
-.btn-primary:hover {     background: linear-gradient(to right, #6366f1, #252e92);
+.btn-primary:hover {     background: linear-gradient(to right, #6366f1, #ec4899);
  }
 
 .btn-outline {
@@ -1573,3 +1573,4 @@ footer {
     color: #fff; /* White Icon */
     transform: scale(1.1);
 }
+
