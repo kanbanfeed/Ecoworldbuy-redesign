@@ -330,37 +330,55 @@ ul { padding: 0; margin: 0; list-style: none; }
 .hero {
     display: grid;
     grid-template-columns: minmax(320px, 0.9fr) minmax(320px, 1.1fr);
-    gap: 3rem;
-    padding: 4.5rem 0 1rem;
+    gap: 2rem; /* Reduced gap from 3rem to 2rem */
+    padding: 1.5rem 0 1rem; /* CHANGED: Reduced top padding from 4.5rem to 1.5rem to pull content up */
     align-items: stretch;
 }
 
 .hero-card {
     background: linear-gradient(135deg, #ffffff, #ecf5ef);
     border-radius: var(--radius-lg);
-    padding: 2.5rem;
+    padding: 2.5rem; /* Increased slightly for breathing room */
     position: relative;
     overflow: hidden;
     box-shadow: var(--shadow-soft);
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    gap: 1.5rem;
+    
+    /* FIX: Changed from 'center' to 'flex-start' to remove the top gap */
+    justify-content: flex-start; 
+    
+    gap: 1rem;
 }
 
+
+
 .hero-card h1 {
-    font-size: clamp(2.8rem, 5vw, 4.2rem);
-    margin: 0.5rem 0 1.5rem;
-    line-height: 1.05;
+    /* CHANGED: Reduced font size range. Max was 4.2rem, now 3.5rem */
+    font-size: clamp(2.2rem, 4vw, 3.5rem); 
+    margin: 0.5rem 0 1rem;
+    line-height: 1.1;
 }
 
 .hero-card p {
     color: var(--text-muted);
-    font-size: 1.1rem;
-    margin-bottom: 2rem;
+    font-size: 1.05rem; /* Slightly smaller text */
+    margin-bottom: 1.5rem;
+    max-width: 90%; /* Keeps text line length readable */
 }
 
+/* --- IMAGE HEIGHT CONTROL --- */
+
+.hero-media {
+    display: grid;
+    gap: 1rem;
+    /* Defines height ratio between main image and the small stack below */
+    grid-template-rows: minmax(240px, 1fr) auto; 
+}
+
+/* Add this to push the ratings/delivery info to the very bottom */
 .hero-meta {
+    margin-top: auto; 
     display: flex;
     gap: 1.2rem;
     flex-wrap: wrap;
@@ -368,36 +386,28 @@ ul { padding: 0; margin: 0; list-style: none; }
     font-size: 0.9rem;
 }
 
-.hero-media {
-    display: grid;
-    gap: 1.2rem;
-    grid-template-rows: minmax(280px, 1fr) auto;
-}
-
 .hero-feature {
     background: #fff;
     border-radius: var(--radius-lg);
-    padding: 1.5rem;
+    padding: 1.25rem; /* Reduced padding */
     border: 1px solid var(--border);
     box-shadow: var(--shadow-soft);
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.hero-feature:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 25px 40px rgba(0,0,0,0.12);
+    max-height: 500px; /* CHANGED: Added max-height to prevent it from getting too tall */
 }
 
 .hero-feature img {
     width: 100%;
-    aspect-ratio: 4 / 3;
-    object-fit: cover;
+    /* CHANGED: Switch to contain/cover logic to keep it within bounds */
+    height: 280px; 
+    object-fit: contain; 
     border-radius: var(--radius-md);
     margin-top: auto;
-    transition: transform 0.35s ease;
 }
-.hero-feature:hover img { transform: scale(1.03); }
+
 
 .stack {
     display: grid;
@@ -1008,16 +1018,49 @@ footer {
     margin: 0 0.2rem;
 }
 
+.hero-feature {
+    background: #fff;
+    border-radius: var(--radius-lg);
+    padding: 1.25rem; /* Reduced padding */
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-soft);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    max-height: 500px; /* CHANGED: Added max-height to prevent it from getting too tall */
+}
+
+.hero-feature img {
+    width: 100%;
+    /* CHANGED: Switch to contain/cover logic to keep it within bounds */
+    height: 280px; 
+    object-fit: contain; 
+    border-radius: var(--radius-md);
+    margin-top: auto;
+}
+
+/* --- RESPONSIVE ADJUSTMENTS --- */
+
 @media (max-width: 1200px) {
     .hero {
         grid-template-columns: 1fr;
+        padding-top: 2rem;
+    }
+    .hero-card {
+        text-align: center; /* Center text on mobile/tablets */
+        align-items: center;
+    }
+    .hero-card h1 {
+        font-size: 2.5rem;
     }
     .hero-media {
-        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        /* On mobile, stack images normally */
         grid-template-rows: auto;
     }
     .hero-feature img {
-        margin-top: 1rem;
+        height: auto;
+        max-height: 300px;
     }
 }
 
@@ -1141,4 +1184,320 @@ footer {
         font-size: 0.7rem;
         padding: 6px;
     }
+}
+/* --- NEW CROWBAR THEMED HERO --- */
+
+.hero-card {
+    /* Base: Pure White */
+    background-color: #ffffff;
+    
+    /* THEME: Soft Blurred Orbs (Green top-left, Crowbar Purple bottom-right) */
+    background-image: 
+        radial-gradient(circle at 0% 0%, rgba(34, 197, 94, 0.15) 0%, transparent 55%),
+        radial-gradient(circle at 95% 90%, rgba(124, 58, 237, 0.08) 0%, transparent 55%);
+        
+    border-radius: var(--radius-lg);
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+    
+    /* THEME: Floating "Glass" Shadow */
+    box-shadow: 
+        0 20px 40px -5px rgba(0, 0, 0, 0.04),
+        0 8px 16px -8px rgba(0, 0, 0, 0.02);
+    border: 1px solid rgba(0,0,0,0.03);
+    
+    /* Layout Logic (Preserved from previous fix) */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 1.2rem;
+}
+
+/* Update the "New Season Edit" pill to look like the Crowbar "Flash Sale" badge */
+.hero-card .pill {
+    background: #ffffff;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08); /* Float effect */
+    color: var(--text-main);
+    border: 1px solid rgba(0,0,0,0.04);
+    font-weight: 700;
+    padding: 0.5rem 1.2rem;
+    align-self: flex-start; /* Ensures it stays left aligned */
+}
+
+/* Make the Headline Darker and punchier like the screenshot */
+.hero-card h1 {
+    font-size: clamp(2.2rem, 4vw, 3.5rem);
+    margin: 0.5rem 0 0.5rem;
+    line-height: 1.1;
+    color: #0f172a; /* Darker Slate color for high contrast */
+    letter-spacing: -0.03em; /* Tighter, modern tracking */
+}
+/* --- CROWBAR DARK THEME SECTION --- */
+
+
+
+
+/* --- CROWBAR ELITE CTA BANNER --- */
+    
+.cta-banner {
+    margin: 5rem auto;
+    width: 100%;
+    
+    /* THEME: Vibrant Pink-to-Red Gradient */
+    background: linear-gradient(135deg, #e18ed8 0%, #7d5f65 60%, #815294 100%);
+    
+    color: #fff;
+    border-radius: var(--radius-lg);
+    padding: 4rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center everything */
+    gap: 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    
+    /* Pink Glow Shadow */
+    box-shadow: 0 25px 50px -12px rgba(225, 29, 72, 0.35);
+}
+
+/* DECORATION: The Yellow "Progress Bar" accent at the bottom */
+
+
+/* BUTTON OVERRIDES FOR THIS SECTION ONLY */
+
+.cta-banner .btn {
+    border: none !important;
+    font-weight: 800;
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+    letter-spacing: 0.5px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 1. The "Go Elite" Style (Yellow Button) - Replaces 'Explore' */
+.cta-banner .btn-primary {
+    background: #facc15; /* Gold */
+    color: #881337;      /* Deep Red Text */
+    box-shadow: 0 10px 20px -5px rgba(250, 204, 21, 0.4);
+}
+.cta-banner .btn-primary:hover {
+    background: #fde047;
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 15px 25px -5px rgba(250, 204, 21, 0.5);
+}
+
+/* 2. The "Claim Spot" Style (White Button) - Replaces 'Review Bag' */
+.cta-banner .btn-outline {
+    background: #ffffff;
+    color: #be123c;      /* Pink/Red Text */
+    box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.1);
+}
+.cta-banner .btn-outline:hover {
+    background: #fff1f2;
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 15px 25px -5px rgba(0, 0, 0, 0.15);
+}
+
+/* Typography adjustment for the dark background */
+.cta-banner h2 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin: 0;
+}
+.cta-banner p {
+    color: rgba(255,255,255,0.9);
+    font-size: 1.1rem;
+    max-width: 600px;
+}
+
+/* --- FIXED: CLEAN LIGHT RETAIL THEME --- */
+
+.crowbar-trending-section {
+    width: 100%;
+    
+        background: linear-gradient(135deg, #899cc5 10%, #cba464 50%, #899cc4 100%);
+    padding: 6rem 0;
+    margin-top: 4rem;
+    border-top: 1px solid #e2e8f0;
+}
+
+/* SECTION HEADER (Outside the cards) */
+.crowbar-trending-section .section-heading.centered {
+    text-align: center;
+    flex-direction: column;
+    align-items: center;    
+    margin-bottom: 3.5rem;
+}
+
+.crowbar-trending-section .eyebrow {
+    color: #1b1323; /* Dark Gray (Visible on light bg) */
+    font-weight: 900;
+    letter-spacing: 0.15rem;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+    display: inline-block;
+}
+
+.crowbar-trending-section h2 {
+    color: #0f172a; /* Deep Black/Navy (High Contrast) */
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-top: 0;
+}
+
+.crowbar-trending-section .link-arrow {
+    color: #0f5132; /* Eco Green link */
+}
+
+/* --- PRODUCT CARDS (The Fix) --- */
+/* --- FIXED CARD & HOVER EFFECTS --- */
+
+.product-card.dark-card {
+    background: #ffffff;
+    /* Clean, subtle gray border initially */
+    border: 1px solid #f1f5f9; 
+    border-radius: 16px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    /* Smooth transition for the lift effect */
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+}
+
+/* --- THE NEW HOVER EFFECT --- */
+.product-card.dark-card:hover {
+    /* 1. Lift Up */
+    transform: translateY(-8px); 
+    
+    /* 2. KEEP BACKGROUND WHITE (Fixes the readability issue) */
+    background: #ffffff !important; 
+    
+    /* 3. Elegant Shadow */
+    box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    
+    /* 4. Highlight Border with Eco Green */
+    border-color: #059669; 
+}
+
+//* 1. IMAGE CONTAINER - Remove extra restrictions */
+.product-card.dark-card .card-img-container {
+    background: #f8fafc;
+    width: 100%;
+    aspect-ratio: 1 / 1; /* Keep square shape */
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    overflow: hidden;
+    position: relative; /* Added for stability */
+}
+
+/* 2. THE IMAGE ITSELF - Make it FILL the space */
+.product-card.dark-card img {
+    /* CHANGED: Increased from 85% to 100% */
+    width: 100%;
+    height: 100%;
+    
+    /* Keep 'contain' so it doesn't crop, but fill the box */
+    object-fit: contain; 
+    
+    /* Add just a tiny bit of breathing room so it doesn't touch the absolute edge */
+    padding: 10px; 
+    
+    mix-blend-mode: multiply;
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* 3. HOVER ZOOM - Slightly stronger zoom since image is bigger */
+.product-card.dark-card:hover img {
+    transform: scale(1.15); 
+}
+
+
+
+/* Ensure Text Stays Readable on Hover */
+.product-card.dark-card .card-category {
+    color: #64748b; 
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 0.35rem;
+}
+
+.product-card.dark-card .card-title {
+    color: #0f172a; /* Dark Navy/Black */
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    transition: color 0.3s ease;
+}
+
+/* Make title turn Green on hover for interaction feedback */
+.product-card.dark-card:hover .card-title {
+    color: #059669; 
+}
+
+.product-card.dark-card p {
+    color: #475569;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.product-card.dark-card .card-price {
+    color: #0f172a;
+    font-weight: 800;
+    font-size: 1.25rem;
+}
+
+/* Footer Alignment */
+.product-card.dark-card > div:last-child {
+    margin-top: auto;
+    padding-top: 1rem;
+    border-top: 1px dashed #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Credits Chip */
+.product-card.dark-card .credit-chip {
+    background: #ecfdf5;
+    color: #047857;
+    border: none;
+    font-weight: 600;
+    font-size: 0.8rem;
+    padding: 5px 10px;
+    border-radius: 6px;
+}
+
+/* Add Button */
+.product-card.dark-card .btn-add-mini {
+    background: #f1f5f9;
+    color: #0f172a;
+    border-radius: 8px; /* Slightly square for modern look */
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.product-card.dark-card .btn-add-mini:hover {
+    background: #059669; /* Green Fill */
+    color: #fff; /* White Icon */
+    transform: scale(1.1);
 }

@@ -86,38 +86,45 @@
     </div>
 </section>
 
-<section class="home-shell" style="margin-top:2rem;">
-    <div class="section-heading">
-        <div>
-            <p class="eyebrow">Trending now</p>
-            <h2>Best sellers loved by the eco community</h2>
-        </div>
-        <a class="link-arrow" href="/shop">View all products <i class="bi bi-arrow-right"></i></a>
-    </div>
-
-    <div class="grid">
-        <% products.slice(0, 8).forEach((p, index) => { %>
-            <div class="product-card fade-in-up" style="transition-delay: <%= index * 50 %>ms">
-                <a href="/product/<%= p.id %>" class="card-img-container">
-                    <img src="<%= p.image %>" alt="<%= p.name %>" loading="lazy">
-                </a>
-
-                <span class="card-category">Eco essentials</span>
-                <a href="/product/<%= p.id %>">
-                    <h3 class="card-title"><%= p.name %></h3>
-                </a>
-                <p style="color:var(--text-muted); font-size:0.95rem;"><%= p.desc %></p>
-                <div class="card-price">$<%= p.price.toFixed(2) %></div>
-                <span class="credit-chip"><i class="bi bi-lightning-charge"></i><%= Math.round(p.price) %> credits</span>
-
-                <form action="/add-to-cart/<%= p.id %>" method="POST">
-                    <input type="hidden" name="quantity" value="1">
-                    <button type="submit" class="btn-add-mini" title="Quick Add">
-                        <i class="bi bi-plus-lg"></i>
-                    </button>
-                </form>
+<section class="crowbar-trending-section fade-in-up">
+    <div class="home-shell">
+        <div class="section-heading centered">
+            <div>
+                <p class="eyebrow">Trending Now</p>
+                <h2>Best sellers loved by the community</h2>
             </div>
-        <% }) %>
+            <a class="link-arrow" href="/shop">View all <i class="bi bi-arrow-right"></i></a>
+        </div>
+
+        <div class="grid">
+            <% products.slice(0, 8).forEach((p, index) => { %>
+                <div class="product-card dark-card fade-in-up" style="transition-delay: <%= index * 50 %>ms">
+                    <a href="/product/<%= p.id %>" class="card-img-container">
+                        <img src="<%= p.image %>" alt="<%= p.name %>" loading="lazy">
+                    </a>
+
+                    <span class="card-category">Eco essentials</span>
+                    <a href="/product/<%= p.id %>">
+                        <h3 class="card-title"><%= p.name %></h3>
+                    </a>
+                    <p><%= p.desc %></p>
+                    <div class="card-price">$<%= p.price.toFixed(2) %></div>
+                    
+                    <div style="display:flex; justify-content:space-between; align-items:center; width:100%; margin-top:auto;">
+                         <span class="credit-chip">
+                            <i class="bi bi-lightning-charge"></i><%= Math.round(p.price) %> credits
+                        </span>
+                        
+                        <form action="/add-to-cart/<%= p.id %>" method="POST" style="margin:0;">
+                            <input type="hidden" name="quantity" value="1">
+                            <button type="submit" class="btn-add-mini" title="Quick Add">
+                                <i class="bi bi-plus-lg"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
     </div>
 </section>
 
@@ -220,7 +227,7 @@
     <p>Build a better capsule for home, travel, and work with products that care for the planet as much as you do.</p>
     <div style="display:flex; justify-content:center; gap:1rem; flex-wrap:wrap;">
         <a href="/shop" class="btn btn-primary">Explore the catalog</a>
-        <a href="/cart" class="btn btn-outline" style="color:#fff; border-color:rgba(255,255,255,0.4);">Review my bag</a>
+        <a href="/cart" class="btn btn-outline" style="color:black; border-color:rgba(255,255,255,0.4);">Review my bag</a>
     </div>
 </section>
 
