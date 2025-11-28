@@ -243,17 +243,57 @@ ul { padding: 0; margin: 0; list-style: none; }
     justify-content: center;
 }
 
-.btn-crowbar {
-    background: #000;
-    color: #fff;
-    padding: 0.65rem 1.2rem;
-    border-radius: 999px;
-    font-weight: 600;
+/* --- NEW CROWBAR BUTTONS (CareDuel Style) --- */
+
+/* 1. The Orange "Login" Button */
+.btn-crowbar-login {
+    background: linear-gradient(135deg, #F59E0B 0%, #ea580c 100%); /* Vibrant Orange Gradient */
+    color: #ffffff;
+    padding: 0.65rem 1.5rem;
+    border-radius: 8px; /* Slightly rounded corners like screenshot */
+    font-weight: 700;
+    font-size: 0.95rem;
     display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
+    gap: 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 10px rgba(234, 88, 12, 0.25); /* Orange glow */
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
-.btn-crowbar:hover { background: #1a1a1a; }
+
+.btn-crowbar-login:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(234, 88, 12, 0.35);
+    color: #ffffff;
+}
+
+.btn-crowbar-login i {
+    font-size: 1.1rem;
+}
+
+/* 2. The Dark "Logout" Button (Same shape, different color) */
+.btn-crowbar-logout {
+    background: linear-gradient(135deg, #F59E0B 0%, #ea580c 100%); /* Vibrant Orange Gradient */
+    color: #ffffff;
+    padding: 0.65rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.btn-crowbar-logout:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(234, 88, 12, 0.35);
+    color: #ffffff;
+    border-color: #ef4444;
+}
 
 .nav-toggle {
     border: none;
@@ -1054,5 +1094,51 @@ footer {
     }
     .footer-network {
         text-align: center;
+    }
+}
+/* --- MOBILE RESPONSIVENESS FIX --- */
+
+@media (max-width: 1024px) {
+    /* 1. Hide Desktop Elements */
+    .nav-links,
+    .search-bar,
+    #nav-login-btn { /* <--- THIS HIDES THE BIG BUTTON ON MOBILE */
+        display: none !important;
+    }
+
+    /* 2. Show Hamburger */
+    .nav-toggle { 
+        display: block; 
+        color: var(--primary);
+    }
+
+    /* 3. Adjust Cart Grid */
+    .cart-wrapper {
+        grid-template-columns: 1fr;
+    }
+    
+    /* 4. Adjust Mobile Menu Button */
+    .mobile-menu .btn-crowbar-login,
+    .mobile-menu .btn-crowbar-logout {
+        width: 100%;
+        justify-content: center;
+        margin-top: 1rem;
+    }
+}
+
+@media (max-width: 520px) {
+    /* Tweak logo size for very small phones */
+    .nav-brand { font-size: 1.3rem; }
+    
+    .nav-container { padding: 0 1rem; }
+    .nav-actions { gap: 0.8rem; }
+    
+    /* Ensure Hero text fits */
+    .hero h1 { font-size: 2.5rem; }
+    
+    /* Fix Banner Text */
+    .crowbar-banner {
+        font-size: 0.7rem;
+        padding: 6px;
     }
 }

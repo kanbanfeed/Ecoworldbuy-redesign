@@ -39,10 +39,12 @@
                     <span class="cart-badge"><%= typeof cartCount !== 'undefined' ? cartCount : 0 %></span>
                 </a>
 
-                <a href="/login" class="btn-crowbar" id="nav-login-btn">
-                    <i class="bi bi-person-fill"></i> Login
-                </a>
-                
+       <a href="/login" class="btn-crowbar-login" id="nav-login-btn">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-top:-2px;">
+        <path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"/>
+    </svg>
+    Login with Crowbar
+</a>            
                 <button class="nav-toggle"><i class="bi bi-list"></i></button>
             </div>
         </div>
@@ -73,61 +75,62 @@
         </div>
     </footer>
 
-    <script>
-        // 1. Mobile Menu Logic
-        const navToggle = document.querySelector('.nav-toggle');
-        const mobileMenu = document.querySelector('.mobile-menu');
-        const closeMenu = document.querySelector('.close-menu');
+   <script>
+    // 1. Mobile Menu Logic
+    const navToggle = document.querySelector('.nav-toggle');
+    const mobileMenu = document.querySelector('.mobile-menu');
+    const closeMenu = document.querySelector('.close-menu');
 
-        if(navToggle) {
-            navToggle.addEventListener('click', () => mobileMenu.classList.add('open'));
-            closeMenu.addEventListener('click', () => mobileMenu.classList.remove('open'));
+    if(navToggle) {
+        navToggle.addEventListener('click', () => mobileMenu.classList.add('open'));
+        closeMenu.addEventListener('click', () => mobileMenu.classList.remove('open'));
+    }
+
+    // 2. Auth State Checker (Crowbar)
+    const session = localStorage.getItem('crowbar_session');
+    const loginBtn = document.getElementById('nav-login-btn');
+    const mobileBtn = document.getElementById('mobile-login-btn');
+
+    // LOGOUT FUNCTION
+    function logout(e) {
+        if(e) e.preventDefault();
+        localStorage.removeItem('crowbar_session');
+        localStorage.removeItem('crowbar_user');
+        window.location.href = '/logout';
+    }
+
+    // UPDATE UI IF LOGGED IN
+    if (session) {
+        // Update Desktop Button
+        if (loginBtn) {
+            // Change class to the Dark Logout Style
+            loginBtn.className = 'btn-crowbar-logout'; 
+            // Change Text and Icon
+            loginBtn.innerHTML = '<i class="bi bi-box-arrow-right"></i> Logout';
+            loginBtn.href = '#'; 
+            loginBtn.onclick = logout;
         }
 
-        // 2. Auth State Checker (Crowbar)
-        const session = localStorage.getItem('crowbar_session');
-        const loginBtn = document.getElementById('nav-login-btn');
-        const mobileBtn = document.getElementById('mobile-login-btn');
-
-        // LOGOUT FUNCTION
-        function logout(e) {
-            if(e) e.preventDefault();
-            localStorage.removeItem('crowbar_session');
-            localStorage.removeItem('crowbar_user');
-            window.location.href = '/logout';
+        // Update Mobile Button
+        if (mobileBtn) {
+            mobileBtn.innerHTML = 'Logout';
+            mobileBtn.href = '#';
+            mobileBtn.onclick = logout;
         }
+    }
 
-        // UPDATE UI IF LOGGED IN
-        if (session) {
-            // Update Desktop Button
-            if (loginBtn) {
-                // CHANGED: Icon is now exit box, Text is "Logout"
-                loginBtn.innerHTML = '<i class="bi bi-box-arrow-right"></i> Logout';
-                loginBtn.style.background = "#333"; // Keep it dark
-                loginBtn.href = '#'; 
-                loginBtn.onclick = logout;
+    // 3. SCROLL ANIMATION OBSERVER
+    const observerOptions = { threshold: 0.1 };
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
             }
+        });
+    }, observerOptions);
 
-            // Update Mobile Button
-            if (mobileBtn) {
-                mobileBtn.innerHTML = 'Logout';
-                mobileBtn.href = '#';
-                mobileBtn.onclick = logout;
-            }
-        }
-
-        // 3. SCROLL ANIMATION OBSERVER
-        const observerOptions = { threshold: 0.1 };
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
-    </script>
+    document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
+</script>
 </body>
 </html>
