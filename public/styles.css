@@ -1245,7 +1245,7 @@ footer {
     width: 100%;
     
     /* THEME: Vibrant Pink-to-Red Gradient */
-    background: linear-gradient(135deg, #e18ed8 0%, #7d5f65 60%, #815294 100%);
+    background: linear-gradient(135deg, #64be5a 0%, #81ac7c 60%);
     
     color: #fff;
     border-radius: var(--radius-lg);
@@ -1261,8 +1261,6 @@ footer {
     /* Pink Glow Shadow */
     box-shadow: 0 25px 50px -12px rgba(225, 29, 72, 0.35);
 }
-
-/* DECORATION: The Yellow "Progress Bar" accent at the bottom */
 
 
 /* BUTTON OVERRIDES FOR THIS SECTION ONLY */
