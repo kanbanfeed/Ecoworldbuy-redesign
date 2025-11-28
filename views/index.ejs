@@ -3,19 +3,44 @@
 
 <section class="home-shell hero fade-in-up">
     <article class="hero-card">
-        <span class="pill"><i class="bi bi-sparkles"></i> New Season Edit</span>
-        <h1>Earth-first essentials for every ritual at home and on-the-go.</h1>
-        <p>Thoughtfully crafted objects that feel premium, perform hard, and protect the planet. Designed for the everyday routines you actually keep.</p>
-        <div style="display:flex; gap:1rem; flex-wrap:wrap;">
-            <a href="/shop" class="btn btn-primary">Shop the collection</a>
-            <a href="/cart" class="btn btn-outline">View my bag</a>
+    <span class="pill"><i class="bi bi-sparkles"></i> New Season Edit</span>
+    <h1>Earth-first essentials for every ritual at home and on-the-go.</h1>
+    <p>Thoughtfully crafted objects that feel premium, perform hard, and protect the planet.</p>
+    
+    <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+        <a href="/shop" class="btn btn-primary">Shop the collection</a>
+        <a href="/cart" class="btn btn-outline">View my bag</a>
+    </div>
+
+    <div class="hero-benefits">
+        <div class="benefit-item">
+            <div class="icon-box"><i class="bi bi-box-seam-fill"></i></div>
+            <div>
+                <strong>100% Plastic-Free</strong>
+                <span>Shipped in compostable pulp</span>
+            </div>
         </div>
-        <div class="hero-meta">
-            <div><strong>4.9/5</strong> Average community rating</div>
-            <div><strong>72hr</strong> delivery to most states</div>
-            <div><strong>2× credits</strong> for Crowbar members</div>
+        <div class="benefit-item">
+            <div class="icon-box"><i class="bi bi-shield-check"></i></div>
+            <div>
+                <strong>Lifetime Warranty</strong>
+                <span>We repair or replace, forever</span>
+            </div>
         </div>
-    </article>
+        <div class="benefit-item">
+            <div class="icon-box"><i class="bi bi-lightning-charge-fill"></i></div>
+            <div>
+                <strong>Crowbar Rewards</strong>
+                <span>Earn 2x credits on every item</span>
+            </div>
+        </div>
+    </div>
+    <div class="hero-meta">
+        <div><strong>4.9/5</strong> Average community rating</div>
+        <div><strong>72hr</strong> delivery to most states</div>
+        <div><strong>2× credits</strong> for Crowbar members</div>
+    </div>
+</article>
 
     <div class="hero-media">
         <article class="hero-feature">
@@ -97,7 +122,7 @@
         </div>
 
         <div class="grid">
-            <% products.slice(0, 8).forEach((p, index) => { %>
+            <% products.slice(0, 10).forEach((p, index) => { %>
                 <div class="product-card dark-card fade-in-up" style="transition-delay: <%= index * 50 %>ms">
                     <a href="/product/<%= p.id %>" class="card-img-container">
                         <img src="<%= p.image %>" alt="<%= p.name %>" loading="lazy">
@@ -162,7 +187,7 @@
     <article class="membership-card highlight">
         <div class="pill" style="background:rgba(255,255,255,0.15); color:#fff;">Best value</div>
         <h3 style="margin:0;">Crowbar Member</h3>
-        <p style="color:rgba(255,255,255,0.8);">Included with your Crowbar identity. Unlock 2× credits, carbon-neutral express shipping, and one-tap checkout.</p>
+        <p >Included with your Crowbar identity. Unlock 2× credits, carbon-neutral express shipping, and one-tap checkout.</p>
         <ul style="color:#fff;">
             <li><i class="bi bi-check-circle-fill"></i> 2× Eco credits on every order</li>
             <li><i class="bi bi-check-circle-fill"></i> Free express delivery</li>
